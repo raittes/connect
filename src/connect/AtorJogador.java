@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import servidor.AtorRede;
+import servidor.JogadaConnect;
 
 import br.ufsc.inf.leobr.cliente.Jogada;
 import br.ufsc.inf.leobr.cliente.OuvidorProxy;
@@ -66,7 +67,8 @@ public class AtorJogador {
 	public void setjFrame(JFrame jFrame) {
 		this.jFrame = jFrame;
 	}
-	public void receberMensagem(String jogada) {
+
+	public void receberJogada(JogadaConnect jogadaConnect) {
 		// TODO Auto-generated method stub
 		
 	}

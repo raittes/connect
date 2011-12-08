@@ -51,11 +51,10 @@ public class AtorRede implements OuvidorProxy {
 	}
 	
 	
-	public void enviaJogada(String jogada){
-		
-		JogadaConnect jgd = new JogadaConnect(jogada);
+	public void enviaJogada(Jogada jogada){
 		try {
-			proxy.enviaJogada(jgd);
+			proxy.enviaJogada(jogada);
+			minhaVez = false;
 		} catch (NaoJogandoException e) {
 			JOptionPane.showMessageDialog(atorJogador.getjFrame(), e.getMessage());
 			e.printStackTrace();
@@ -78,7 +77,7 @@ public class AtorRede implements OuvidorProxy {
 
 	@Override
 	public void finalizarPartidaComErro(String message) {
-		// TODO Auto-generated method stub
+		JOptionPane.showMessageDialog(null, message);
 
 	}
 
@@ -87,11 +86,11 @@ public class AtorRede implements OuvidorProxy {
 		atorJogador.getTabuleiro().trataJogada(msg);
 
 	}
-
 	@Override
 	public void receberJogada(Jogada jogada) {
 		JogadaConnect jogadaConnect = (JogadaConnect) jogada;
-		atorJogador.receberMensagem(jogadaConnect.getJogada());
+		atorJogador.receberJogada(jogadaConnect);
+		minhaVez = true;
 	}
 
 	public void desconectar(){
@@ -111,7 +110,7 @@ public class AtorRede implements OuvidorProxy {
 
 	@Override
 	public void tratarPartidaNaoIniciada(String message) {
-		// TODO Auto-generated method stub
+		int confirm = JOptionPane.showConfirmDialog(null, message);
 
 	}
 

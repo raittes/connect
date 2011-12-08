@@ -1,6 +1,8 @@
 package servidor;
 
-public class JogadaConnect implements br.ufsc.inf.leobr.cliente.Jogada {
+import br.ufsc.inf.leobr.cliente.Jogada;
+
+public class JogadaConnect implements Jogada {
 
 	/**
 	 * 
