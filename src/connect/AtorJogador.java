@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import connect.logica.Connect;
+
 import servidor.AtorRede;
 import servidor.JogadaConnect;
 
@@ -15,20 +17,9 @@ public class AtorJogador {
 
 	private JFrame jFrame;	
 	private JPanel painelPrincipal;
-	private Tabuleiro tabuleiro;
+	private Connect connect;
 	private AtorRede atorRede;
-	public Tabuleiro getTabuleiro() {
-		return tabuleiro;
-	}
-
-
-	public void setTabuleiro(Tabuleiro tabuleiro) {
-		this.tabuleiro = tabuleiro;
-	}
 	private String nome;
-	
-
-	
 	
 	public AtorJogador(){
 		super();
@@ -46,14 +37,13 @@ public class AtorJogador {
 	
 	public void iniciaPartida(boolean comecoJogando) {
 		String nomeAdversario = atorRede.obterNomeAdversario();
-		tabuleiro = new Tabuleiro();
-		
+		Connect connect = new Connect(new Tabuleiro("220002000"));
 		if(comecoJogando){
-			tabuleiro.criarParticipante(this.nome);
-			tabuleiro.criarParticipante(nomeAdversario);
+			connect.criarParticipante(this.nome);
+			connect.criarParticipante(nomeAdversario);
 		}else{
-			tabuleiro.criarParticipante(nomeAdversario);
-			tabuleiro.criarParticipante(this.nome);
+			connect.criarParticipante(nomeAdversario);
+			connect.criarParticipante(this.nome);
 		}
 	}
 	
@@ -68,7 +58,23 @@ public class AtorJogador {
 		this.jFrame = jFrame;
 	}
 
-	public void receberJogada(JogadaConnect jogadaConnect) {
+	public void receberJogada(Jogada jogada) {
+		connect.trataJogada(jogada);
+		
+	}
+
+
+	public Connect getConnect() {
+		return connect;
+	}
+
+
+	public void setConnect(Connect connect) {
+		this.connect = connect;
+	}
+
+
+	public void exibeMensagem(String msg) {
 		// TODO Auto-generated method stub
 		
 	}

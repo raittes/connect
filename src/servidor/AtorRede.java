@@ -83,13 +83,12 @@ public class AtorRede implements OuvidorProxy {
 
 	@Override
 	public void receberMensagem(String msg) {
-		atorJogador.getTabuleiro().trataJogada(msg);
+		atorJogador.exibeMensagem(msg);
 
 	}
 	@Override
 	public void receberJogada(Jogada jogada) {
-		JogadaConnect jogadaConnect = (JogadaConnect) jogada;
-		atorJogador.receberJogada(jogadaConnect);
+		atorJogador.receberJogada(jogada);
 		minhaVez = true;
 	}
 
