@@ -461,6 +461,7 @@ public class ConnectView extends FrameView {
 
     private void buttonIniciarPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonIniciarPartidaActionPerformed
         status2.setText("Aguardando Oponente");
+        menuJogada.setEnabled(true);
         gui.iniciarJogo();        
     }//GEN-LAST:event_buttonIniciarPartidaActionPerformed
 

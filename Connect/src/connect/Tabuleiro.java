@@ -54,21 +54,9 @@ public class Tabuleiro extends JPanel {
 	}
 	public boolean executaJogadaAdicionar(JogadaAdicionar jogada) {
             
-            // A N I M A C A O
-            int colunaAnimacao=jogada.getColuna();
-            int ultima = this.getUltimaPosicaoLivre(colunaAnimacao);
+            
             if(this.temPosisaoLivre(jogada.getColuna())){
-                
-                for(int animacao=0; animacao<=ultima;animacao++){
-                    try{
-                        this.fichas.put((animacao+"_"+colunaAnimacao),new Ficha(0));
-                        this.repaint();
-                        Thread.sleep(25);
-                        this.fichas.remove((animacao+"_"+colunaAnimacao));
-                    }catch (Exception e){}
-                    
-                }
-                
+                executeAnimacao(jogada);
 		this.depositaFicha(new Ficha(jogada.getIdJogador()), jogada.getColuna(),jogada.getIdJogador());
                                                                        
                 this.repaint();
@@ -346,6 +334,23 @@ public class Tabuleiro extends JPanel {
                 }
             }
             return retorno;
+        }
+
+        public void executeAnimacao(JogadaAdicionar jogada) {
+            // A N I M A C A O
+                int colunaAnimacao=jogada.getColuna();
+                int ultima = this.getUltimaPosicaoLivre(colunaAnimacao);
+
+                    for(int animacao=0; animacao<=ultima;animacao++){
+                        System.out.println("animando "+jogadorLocal.getNome());
+                        try{
+                            this.fichas.put((animacao+"_"+colunaAnimacao),new Ficha(0));
+                            this.repaint();
+                            Thread.sleep(25);
+                            this.fichas.remove((animacao+"_"+colunaAnimacao));
+                        }catch (Exception e){}
+
+                    }
         }
           
 }

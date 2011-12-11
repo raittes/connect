@@ -21,12 +21,12 @@ public class Connect {
 
 	public boolean trataJogada(Jogada jogada) {
 		if (atorJogador.getAtorRede().isMinhaVez()) {
-//			if (jogada instanceof JogadaAdicionar) {
-//				return tabuleiro.executaJogadaAdicionar((JogadaAdicionar) jogada);                                                                    
-//			} else if(jogada instanceof JogadaRemover) {
-//                            
-//				return tabuleiro.executaJogadaRemover((JogadaRemover) jogada);                               
-//			}
+			if (jogada instanceof JogadaAdicionar) {
+				return tabuleiro.executaJogadaAdicionar((JogadaAdicionar) jogada);                                                                    
+			} else if(jogada instanceof JogadaRemover) {
+                            
+				return tabuleiro.executaJogadaRemover((JogadaRemover) jogada);                               
+			}
                     return true;
 		}
                 return false;
@@ -58,7 +58,8 @@ public class Connect {
         }
         public Jogador temVencedor() {        
             Jogador jogador = null;
-            jogador = this.getTabuleiro().temVencedor();                                
+            jogador = this.getTabuleiro().temVencedor();    
+            this.getTabuleiro().repaint();
             return jogador;
         }
         public Ranking getRanking() {

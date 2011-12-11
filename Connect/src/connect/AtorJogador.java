@@ -70,6 +70,9 @@ public class AtorJogador  extends JPanel implements MouseListener{
 		atorRede.iniciaPartida();
 	}
 	public void receberJogada(Jogada jogada) {
+            if(atorRede.isMinhaVez()&& jogada instanceof JogadaAdicionar){
+                this.connect.getTabuleiro().executeAnimacao((JogadaAdicionar)jogada);
+            }
 		if(connect.trataJogada(jogada)){
                     atorRede.enviaJogada(jogada);
                 }                
@@ -129,9 +132,7 @@ public class AtorJogador  extends JPanel implements MouseListener{
     public void verificaVencedor() {
         Jogador vencedor = this.getConnect().temVencedor();
         if(vencedor!=null){     
-                // Ranking
-                
-            
+                            
             if(connect.getTabuleiro().getJogadorLocal().getNome().equals(vencedor.getNome())){
                 connect.getTabuleiro().getJogadorLocal().newVitoria();
                 connect.getTabuleiro().getJogadorRemoto().newDerrota();

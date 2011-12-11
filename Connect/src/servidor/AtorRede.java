@@ -96,8 +96,9 @@ public class AtorRede implements OuvidorProxy {
                     atorJogador.getConnect().getTabuleiro().executaJogadaRemover((JogadaRemover)jogada);                
                 
                 // Verifica Vencedor            
-                atorJogador.verificaVencedor();
                 minhaVez = true; 
+                atorJogador.verificaVencedor();
+                
               
 	}
 	public void desconectar(){
