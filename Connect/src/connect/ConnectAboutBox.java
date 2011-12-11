@@ -28,6 +28,7 @@ public class ConnectAboutBox extends javax.swing.JDialog {
         javax.swing.JLabel appVendorLabel = new javax.swing.JLabel();
         javax.swing.JLabel appDescLabel = new javax.swing.JLabel();
         javax.swing.JLabel imageLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(connect.ConnectApp.class).getContext().getResourceMap(ConnectAboutBox.class);
@@ -67,38 +68,40 @@ public class ConnectAboutBox extends javax.swing.JDialog {
         imageLabel.setAlignmentY(0.0F);
         imageLabel.setName("imageLabel"); // NOI18N
 
+        jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
+        jLabel1.setName("jLabel1"); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(appTitleLabel)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(appTitleLabel)
-                        .addContainerGap())
+                        .addComponent(versionLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(appVersionLabel))
+                    .addComponent(appDescLabel)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(vendorLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(versionLabel)
-                                .addGap(18, 18, 18)
-                                .addComponent(appVersionLabel))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(vendorLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(closeButton)
-                                    .addComponent(appVendorLabel)))
-                            .addComponent(appDescLabel))
-                        .addGap(456, 456, 456))))
+                            .addComponent(jLabel1)
+                            .addComponent(appVendorLabel))
+                        .addGap(28, 28, 28)
+                        .addComponent(closeButton)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
                         .addComponent(appTitleLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(appDescLabel)
@@ -109,11 +112,12 @@ public class ConnectAboutBox extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(vendorLabel)
-                            .addComponent(appVendorLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(closeButton))
+                            .addComponent(appVendorLabel)
+                            .addComponent(closeButton))
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel1))
                     .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -121,6 +125,7 @@ public class ConnectAboutBox extends javax.swing.JDialog {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton closeButton;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
     
 }

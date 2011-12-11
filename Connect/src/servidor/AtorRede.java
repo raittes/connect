@@ -60,7 +60,7 @@ public class AtorRede implements OuvidorProxy {
 	}		
 	public void enviaJogada(Jogada jogada){
 	    try {
-			proxy.enviaJogada(jogada);
+                	proxy.enviaJogada(jogada);
 			minhaVez = false;
 		} catch (NaoJogandoException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -89,14 +89,17 @@ public class AtorRede implements OuvidorProxy {
 	}
 	@Override
 	public void receberJogada(Jogada jogada) {   
-                
+                              
+                                
                 if(jogada instanceof JogadaAdicionar)
                     atorJogador.getConnect().getTabuleiro().executaJogadaAdicionar((JogadaAdicionar)jogada);
                 else if (jogada instanceof JogadaRemover)
                     atorJogador.getConnect().getTabuleiro().executaJogadaRemover((JogadaRemover)jogada);                
-		minhaVez = true;                
+                
                 // Verifica Vencedor            
                 atorJogador.verificaVencedor();
+                minhaVez = true; 
+              
 	}
 	public void desconectar(){
 		try {

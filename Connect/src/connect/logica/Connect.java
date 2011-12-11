@@ -57,15 +57,7 @@ public class Connect {
         }
         public Jogador temVencedor() {        
             Jogador jogador = null;
-            jogador = this.getTabuleiro().temVencedor();        
-            if(ranking.getjLocal().equals(jogador)){
-                ranking.getjLocal().newVitoria();
-                ranking.getjRemoto().newDerrota();                      
-            }                
-            else{
-                ranking.getjRemoto().newVitoria();
-                ranking.getjLocal().newDerrota();
-            }            
+            jogador = this.getTabuleiro().temVencedor();                                
             return jogador;
         }
         public Ranking getRanking() {

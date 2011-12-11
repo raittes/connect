@@ -7,6 +7,7 @@ public class Jogador {
         private int dels;    
         private int vitorias;
         private int derrotas;
+        private int pontuacao;
         
         public Jogador(int id,String nome) {
                 this.dels = 5;
@@ -14,6 +15,7 @@ public class Jogador {
                 this.id = id;
                 this.vitorias=0;
                 this.derrotas=0;
+                this.pontuacao=0;
 	}        
 	public String getNome() {
             return nome;
@@ -47,5 +49,14 @@ public class Jogador {
         }
         public void newVitoria() {
             this.vitorias++;
+        }
+        public int getPontuacao() {
+            return pontuacao;
+        }
+        public void setPontuacao(int pontuacao) {
+            this.pontuacao = pontuacao;
+        }
+        void ganhaPontos(int pontos) {
+            this.pontuacao+=pontos;
         }
 }

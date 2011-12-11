@@ -33,10 +33,12 @@ class Ranking {
         ranking += jLocal.getNome();
         ranking += "\nVitorias: "+jLocal.getVitorias();
         ranking += "\nDerrotas: "+jLocal.getDerrotas();
+        ranking += "\nPontuacao: "+jLocal.getPontuacao();
         ranking += "\n\n";
         ranking += jRemoto.getNome()+"\n";
         ranking += "\nVitorias: "+jRemoto.getVitorias();
         ranking += "\nDerrotas: "+jRemoto.getDerrotas();
+        ranking += "\nPontuacao: "+jRemoto.getPontuacao();
         return ranking;
     }    
 }

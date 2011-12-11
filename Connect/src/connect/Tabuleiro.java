@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Tabuleiro extends JPanel {
@@ -19,7 +20,7 @@ public class Tabuleiro extends JPanel {
 	private Jogador jogadorLocal;
 	private Jogador jogadorRemoto;
         private Connect connect;
-	
+        
         public Tabuleiro() {
            this.fichas = new HashMap<String, Ficha>(); 
         }
@@ -52,12 +53,28 @@ public class Tabuleiro extends JPanel {
 		return Integer.parseInt(aux);
 	}
 	public boolean executaJogadaAdicionar(JogadaAdicionar jogada) {
-		if(this.temPosisaoLivre(jogada.getColuna())){
-			this.depositaFicha(new Ficha(jogada.getIdJogador()), jogada.getColuna(),jogada.getIdJogador());
+            
+            // A N I M A C A O
+            int colunaAnimacao=jogada.getColuna();
+            int ultima = this.getUltimaPosicaoLivre(colunaAnimacao);
+            if(this.temPosisaoLivre(jogada.getColuna())){
+                
+                for(int animacao=0; animacao<=ultima;animacao++){
+                    try{
+                        this.fichas.put((animacao+"_"+colunaAnimacao),new Ficha(0));
                         this.repaint();
-                        return true;
-		}
-                return false;
+                        Thread.sleep(25);
+                        this.fichas.remove((animacao+"_"+colunaAnimacao));
+                    }catch (Exception e){}
+                    
+                }
+                
+		this.depositaFicha(new Ficha(jogada.getIdJogador()), jogada.getColuna(),jogada.getIdJogador());
+                                                                       
+                this.repaint();
+                return true;
+            }
+            return false;
 		
 	}
 	private void depositaFicha(Ficha ficha, int coluna, int idJogador) {
@@ -111,6 +128,9 @@ public class Tabuleiro extends JPanel {
         public void setJogadorRemoto(Jogador jogadorRemoto) {
             this.jogadorRemoto = jogadorRemoto;
         }
+        
+        // BACKUP DE SEGURANCA - SEM ANIMACAO
+        
      	public void paintComponent(Graphics g) {
 		
                 // Desenha o tabuleiro
@@ -119,6 +139,8 @@ public class Tabuleiro extends JPanel {
 		Image tb = new ImageIcon("src/imagens/tabuleiro.png").getImage();
                 Image jLocal = new ImageIcon("src/imagens/jogador1.png").getImage();
                 Image jRemoto = new ImageIcon("src/imagens/jogador2.png").getImage();
+                Image vitoriaLocal = new ImageIcon("src/imagens/vitoria1.png").getImage();
+                Image vitoriaRemoto = new ImageIcon("src/imagens/vitoria2.png").getImage();
                 Image vazia = new ImageIcon("src/imagens/vazia.png").getImage();
                 g.drawImage(tb, 0, 0, 640, 400, this);
                 Ficha ficha;
@@ -127,16 +149,27 @@ public class Tabuleiro extends JPanel {
                             if(fichas.containsKey(getChave(i, j))){
                                 ficha = fichas.get(getChave(i, j));
                                 if(ficha.getIdJogador()==this.getJogadorLocal().getId()){
-                                    g.drawImage(jLocal, 2+j*40, 2+i*40, 35, 35, this);
+                                    if(ficha.isVitoria())
+                                        g.drawImage(vitoriaLocal, 2+j*40, 2+i*40, 35, 35, this);
+                                    else
+                                        g.drawImage(jLocal, 2+j*40, 2+i*40, 35, 35, this);
+                                    
                                 }else if(ficha.getIdJogador() == this.getJogadorRemoto().getId()){
-                                    g.drawImage(jRemoto, 2+j*40, 2+i*40, 35, 35, this);
+                                    if(ficha.isVitoria())
+                                        g.drawImage(vitoriaRemoto, 2+j*40, 2+i*40, 35, 35, this);
+                                    else
+                                        g.drawImage(jRemoto, 2+j*40, 2+i*40, 35, 35, this);
                                 }else{
                                     g.drawImage(vazia, 2+j*40, 2+i*40, 35, 35, this);
                                 }
                             }
                         }
                     }
+                   
         }
+        
+        
+         
         private int getUltimaPosicaoLivre(int coluna) {
 
                     if(coluna<4 || coluna>11){
@@ -215,7 +248,6 @@ public class Tabuleiro extends JPanel {
                     b = fichas.get(getChave(i-1, j)),
                     c = fichas.get(getChave(i-2, j)),
                     d = fichas.get(getChave(i-3, j));
-
              return getAvaliaFichas(a,b,c,d);
         }
         private Jogador temVencedorAdireita(int i, int j) {
@@ -223,7 +255,6 @@ public class Tabuleiro extends JPanel {
                     b = fichas.get(getChave(i, j+1)),
                     c = fichas.get(getChave(i, j+2)),
                     d = fichas.get(getChave(i, j+3));
-
             return getAvaliaFichas(a,b,c,d);
         }
         private Jogador temVencedorAesquerda(int i, int j) {
@@ -231,7 +262,6 @@ public class Tabuleiro extends JPanel {
                     b = fichas.get(getChave(i, j-1)),
                     c = fichas.get(getChave(i, j-2)),
                     d = fichas.get(getChave(i, j-3));
-
             return getAvaliaFichas(a,b,c,d);
         }
         private Jogador temVencedorAbaixo(int i, int j) {
@@ -239,7 +269,6 @@ public class Tabuleiro extends JPanel {
                     b = fichas.get(getChave(i+1, j)),
                     c = fichas.get(getChave(i+2, j)),
                     d = fichas.get(getChave(i+3, j));
-
             return getAvaliaFichas(a,b,c,d);
         }
         private Jogador temVencedorQIEsquerda(int i, int j) {
@@ -301,14 +330,22 @@ public class Tabuleiro extends JPanel {
         private Jogador getAvaliaFichas(Ficha a,Ficha b, Ficha c, Ficha d){
             Jogador retorno = null;
 
-              if(a!=null&& b!=null&&c!=null&&d!=null){
+            if(a!=null&& b!=null&&c!=null&&d!=null){
                 if(a.getIdJogador()==b.getIdJogador()&&c.getIdJogador()==d.getIdJogador()&&a.getIdJogador()==c.getIdJogador()){
-                   if(c.getIdJogador()==jogadorLocal.getId())
-                       retorno = jogadorLocal;
+                    a.setVitoria();
+                    b.setVitoria();
+                    c.setVitoria();
+                    d.setVitoria();
+
+                    if(c.getIdJogador()==jogadorLocal.getId())
+                        retorno = jogadorLocal;
                     else
-                       retorno = jogadorRemoto;
+                        retorno = jogadorRemoto;
+                    // Pontuacao a cada conjunto de fichas
+                    retorno.ganhaPontos(100);
                 }
             }
             return retorno;
-        }      
+        }
+          
 }
