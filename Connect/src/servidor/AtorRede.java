@@ -90,7 +90,6 @@ public class AtorRede implements OuvidorProxy {
 	@Override
 	public void receberJogada(Jogada jogada) {   
                               
-                                
                 if(jogada instanceof JogadaAdicionar)
                     atorJogador.getConnect().getTabuleiro().executaJogadaAdicionar((JogadaAdicionar)jogada);
                 else if (jogada instanceof JogadaRemover)

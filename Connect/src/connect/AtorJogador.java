@@ -72,7 +72,7 @@ public class AtorJogador  extends JPanel implements MouseListener{
 	public void receberJogada(Jogada jogada) {
 		if(connect.trataJogada(jogada)){
                     atorRede.enviaJogada(jogada);
-                }
+                }                
                 this.verificaVencedor();                 
 	}
 	public Connect getConnect() {
