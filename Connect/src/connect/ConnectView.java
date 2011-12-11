@@ -12,6 +12,7 @@ import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  * The application's main frame.
@@ -28,9 +29,15 @@ public class ConnectView extends FrameView {
         
         
                // thank god
-        this.getFrame().setPreferredSize(new Dimension(640, 462));
+        this.getFrame().setPreferredSize(new Dimension(650, 562));
         this.getFrame().setResizable(false);
-               
+        
+        
+        // Desativa Botoes da Partida
+        menuPartida.setEnabled(false);
+        menuJogada.setEnabled(false);
+        menuVerRaking.setEnabled(false);        
+        
         
         // status bar initialization - message timeout, idle icon and busy animation, etc
         ResourceMap resourceMap = getResourceMap();
@@ -120,11 +127,11 @@ public class ConnectView extends FrameView {
         menuDesconectar = new javax.swing.JMenuItem();
         menuVerRaking = new javax.swing.JMenuItem();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        menuPartida = new javax.swing.JMenu();
+        partidaIniciar = new javax.swing.JMenuItem();
+        partidaReiniciar = new javax.swing.JMenuItem();
+        partidaFinalizar = new javax.swing.JMenuItem();
+        menuJogada = new javax.swing.JMenu();
         inserir = new javax.swing.JRadioButtonMenuItem();
         remover = new javax.swing.JRadioButtonMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
@@ -173,18 +180,17 @@ public class ConnectView extends FrameView {
             .addGroup(ConectandoLayout.createSequentialGroup()
                 .addGap(131, 131, 131)
                 .addGroup(ConectandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(status)
+                    .addComponent(informarNomeJogador, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                    .addComponent(status, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(ConectandoLayout.createSequentialGroup()
-                        .addGap(13, 13, 13)
                         .addGroup(ConectandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(ConectandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(informarNomeJogador, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                            .addComponent(nomeJogador, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                            .addComponent(nomeServidor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))))
-                .addGap(474, 474, 474))
+                            .addComponent(nomeServidor, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                            .addComponent(nomeJogador, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE))))
+                .addGap(358, 358, 358))
         );
         ConectandoLayout.setVerticalGroup(
             ConectandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,15 +199,15 @@ public class ConnectView extends FrameView {
                 .addComponent(status)
                 .addGap(18, 18, 18)
                 .addGroup(ConectandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nomeServidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(3, 3, 3)
-                .addGroup(ConectandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nomeJogador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(ConectandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nomeServidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
                 .addComponent(informarNomeJogador)
-                .addContainerGap(293, Short.MAX_VALUE))
+                .addContainerGap(201, Short.MAX_VALUE))
         );
 
         mainPanel.add(Conectando, "Conectando");
@@ -242,7 +248,7 @@ public class ConnectView extends FrameView {
                 .addComponent(status2)
                 .addGap(31, 31, 31)
                 .addComponent(buttonIniciarPartida, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(327, Short.MAX_VALUE))
+                .addContainerGap(307, Short.MAX_VALUE))
         );
 
         mainPanel.add(Conectado, "Conectado");
@@ -258,13 +264,14 @@ public class ConnectView extends FrameView {
         );
         PartidaLayout.setVerticalGroup(
             PartidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 469, Short.MAX_VALUE)
+            .addGap(0, 449, Short.MAX_VALUE)
         );
 
         mainPanel.add(Partida, "Partida");
 
+        menuBar.setMinimumSize(new java.awt.Dimension(300, 20));
         menuBar.setName("menuBar"); // NOI18N
-        menuBar.setPreferredSize(new java.awt.Dimension(600, 27));
+        menuBar.setPreferredSize(new java.awt.Dimension(300, 20));
 
         fileMenu.setText(resourceMap.getString("fileMenu.text")); // NOI18N
         fileMenu.setName("fileMenu"); // NOI18N
@@ -294,6 +301,11 @@ public class ConnectView extends FrameView {
         menuVerRaking.setText(resourceMap.getString("raking.text")); // NOI18N
         menuVerRaking.setActionCommand(resourceMap.getString("raking.actionCommand")); // NOI18N
         menuVerRaking.setName("raking"); // NOI18N
+        menuVerRaking.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVerRakingActionPerformed(evt);
+            }
+        });
         fileMenu.add(menuVerRaking);
 
         javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(connect.ConnectApp.class).getContext().getActionMap(ConnectView.class, this);
@@ -304,28 +316,33 @@ public class ConnectView extends FrameView {
 
         menuBar.add(fileMenu);
 
-        jMenu5.setText(resourceMap.getString("iniciar.text")); // NOI18N
-        jMenu5.setName("iniciar"); // NOI18N
+        menuPartida.setText(resourceMap.getString("iniciar.text")); // NOI18N
+        menuPartida.setName("iniciar"); // NOI18N
 
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem3.setText(resourceMap.getString("jMenuItem3.text")); // NOI18N
-        jMenuItem3.setName("jMenuItem3"); // NOI18N
-        jMenu5.add(jMenuItem3);
+        partidaIniciar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        partidaIniciar.setText(resourceMap.getString("partidaIniciar.text")); // NOI18N
+        partidaIniciar.setName("partidaIniciar"); // NOI18N
+        menuPartida.add(partidaIniciar);
 
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem4.setText(resourceMap.getString("reiniciar.text")); // NOI18N
-        jMenuItem4.setName("reiniciar"); // NOI18N
-        jMenu5.add(jMenuItem4);
+        partidaReiniciar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        partidaReiniciar.setText(resourceMap.getString("reiniciar.text")); // NOI18N
+        partidaReiniciar.setName("reiniciar"); // NOI18N
+        partidaReiniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                partidaReiniciarActionPerformed(evt);
+            }
+        });
+        menuPartida.add(partidaReiniciar);
 
-        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem5.setText(resourceMap.getString("finalizar.text")); // NOI18N
-        jMenuItem5.setName("finalizar"); // NOI18N
-        jMenu5.add(jMenuItem5);
+        partidaFinalizar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
+        partidaFinalizar.setText(resourceMap.getString("finalizar.text")); // NOI18N
+        partidaFinalizar.setName("finalizar"); // NOI18N
+        menuPartida.add(partidaFinalizar);
 
-        menuBar.add(jMenu5);
+        menuBar.add(menuPartida);
 
-        jMenu1.setText(resourceMap.getString("jMenu1.text")); // NOI18N
-        jMenu1.setName("jMenu1"); // NOI18N
+        menuJogada.setText(resourceMap.getString("menuJogada.text")); // NOI18N
+        menuJogada.setName("menuJogada"); // NOI18N
 
         inserir.setSelected(true);
         inserir.setText(resourceMap.getString("inserir.text")); // NOI18N
@@ -335,7 +352,7 @@ public class ConnectView extends FrameView {
                 inserirActionPerformed(evt);
             }
         });
-        jMenu1.add(inserir);
+        menuJogada.add(inserir);
 
         remover.setSelected(false);
         remover.setText(resourceMap.getString("remover.text")); // NOI18N
@@ -345,9 +362,9 @@ public class ConnectView extends FrameView {
                 removerActionPerformed(evt);
             }
         });
-        jMenu1.add(remover);
+        menuJogada.add(remover);
 
-        menuBar.add(jMenu1);
+        menuBar.add(menuJogada);
 
         helpMenu.setText(resourceMap.getString("helpMenu.text")); // NOI18N
         helpMenu.setName("helpMenu"); // NOI18N
@@ -402,15 +419,8 @@ public class ConnectView extends FrameView {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuConectarActionPerformed
-        estabelecerConexao();
-    }//GEN-LAST:event_menuConectarActionPerformed
-
-    private void menuDesconectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDesconectarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_menuDesconectarActionPerformed
-
-    private void informarNomeJogadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_informarNomeJogadorActionPerformed
         status.setText("Status: Conectando...");   
+        nomeJogador.requestFocus();
         
         if(nomeJogador.getText().isEmpty()){ 
             status.setText("Status: Nome em branco!");   
@@ -420,28 +430,58 @@ public class ConnectView extends FrameView {
             gui.setServidor(nomeServidor.getText());
             gui.setNome(nomeJogador.getText());      
             estabelecerConexao();
+            menuPartida.setEnabled(true);            
+        }           
+    }//GEN-LAST:event_menuConectarActionPerformed
+
+    private void menuDesconectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDesconectarActionPerformed
+        gui.getAtorRede().desconectar();        
+        ((java.awt.CardLayout)mainPanel.getLayout()).show(mainPanel,"Conectando");
+        status.setText("Conexão com o Servidor Encerrada!!!!");
+        menuPartida.setEnabled(false);
+        menuJogada.setEnabled(false);
+    }//GEN-LAST:event_menuDesconectarActionPerformed
+
+    private void informarNomeJogadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_informarNomeJogadorActionPerformed
+        status.setText("Status: Conectando...");   
+        nomeJogador.requestFocus();
+        
+        if(nomeJogador.getText().isEmpty()){ 
+            status.setText("Status: Nome em branco!");   
+        }else if(nomeServidor.getText().isEmpty()){
+            status.setText("Status: Servidor em branco");   
+        }else{            
+            gui.setServidor(nomeServidor.getText());
+            gui.setNome(nomeJogador.getText());      
+            estabelecerConexao();
+            menuPartida.setEnabled(true);            
         }        
 
     }//GEN-LAST:event_informarNomeJogadorActionPerformed
 
     private void buttonIniciarPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonIniciarPartidaActionPerformed
         status2.setText("Aguardando Oponente");
-        gui.iniciarJogo();
-        //mainPanel.addMouseListener(gui);        
-        //ConnectApp.getApplication().getMainFrame().addMouseListener(gui);       
-        
+        gui.iniciarJogo();        
     }//GEN-LAST:event_buttonIniciarPartidaActionPerformed
 
     private void inserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserirActionPerformed
         gui.getConnect().setTipoJogadaInsercao(true);
-        remover.setSelected(false);
-        
+        remover.setSelected(false);        
     }//GEN-LAST:event_inserirActionPerformed
-
     private void removerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerActionPerformed
           gui.getConnect().setTipoJogadaInsercao(false);
           inserir.setSelected(false);
     }//GEN-LAST:event_removerActionPerformed
+
+    private void partidaReiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_partidaReiniciarActionPerformed
+            gui.iniciarJogo();        
+        
+    }//GEN-LAST:event_partidaReiniciarActionPerformed
+
+    private void menuVerRakingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVerRakingActionPerformed
+        JOptionPane.showMessageDialog(null, ""+gui.getConnect().getRanking());
+        
+    }//GEN-LAST:event_menuVerRakingActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Conectado;
@@ -452,18 +492,18 @@ public class ConnectView extends FrameView {
     private javax.swing.JRadioButtonMenuItem inserir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem menuConectar;
     private javax.swing.JMenuItem menuDesconectar;
+    private javax.swing.JMenu menuJogada;
+    private javax.swing.JMenu menuPartida;
     private javax.swing.JMenuItem menuVerRaking;
     private javax.swing.JTextField nomeJogador;
     private javax.swing.JTextField nomeServidor;
+    private javax.swing.JMenuItem partidaFinalizar;
+    private javax.swing.JMenuItem partidaIniciar;
+    private javax.swing.JMenuItem partidaReiniciar;
     private javax.swing.JProgressBar progressBar;
     private javax.swing.JRadioButtonMenuItem remover;
     private javax.swing.JLabel status;
@@ -488,6 +528,12 @@ public class ConnectView extends FrameView {
         {
             status.setText("Status: Conectado ao Servidor!");
             ((java.awt.CardLayout)mainPanel.getLayout()).show(mainPanel,"Conectado");
+            menuVerRaking.setEnabled(true);
+            menuPartida.setEnabled(true);
+            partidaReiniciar.setEnabled(true);
+            partidaFinalizar.setEnabled(true);
+            inserir.setEnabled(true);
+            remover.setEnabled(true);
         }else{
             status.setText("Status: Erro na conexão!");
         }

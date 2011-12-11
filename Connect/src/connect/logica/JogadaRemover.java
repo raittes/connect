@@ -25,7 +25,6 @@ public class JogadaRemover implements Jogada{
         public void setIdJogador(int idJogador) {
             this.idJogador = idJogador;
         }
-
 	public int getColuna() {
 		return coluna;
 	}

@@ -6,14 +6,17 @@ import connect.Jogador;
 import connect.Tabuleiro;
 
 public class Connect {
-	private Tabuleiro tabuleiro;
+
+        private Tabuleiro tabuleiro;
         private boolean tipoJogadaInsercao;
         private AtorJogador atorJogador;
+        private Ranking ranking;        
 
 	public Connect(Tabuleiro tabuleiro, AtorJogador jo) {
 		this.setTabuleiro(tabuleiro);
                 this.tipoJogadaInsercao = true;
-                this.atorJogador = jo;                
+                this.atorJogador = jo;      
+                this.ranking = new Ranking();
 	}
 
 	public boolean trataJogada(Jogada jogada) {
@@ -21,6 +24,7 @@ public class Connect {
 			if (jogada instanceof JogadaAdicionar) {
 				return tabuleiro.executaJogadaAdicionar((JogadaAdicionar) jogada);                                                                    
 			} else if(jogada instanceof JogadaRemover) {
+                            
 				return tabuleiro.executaJogadaRemover((JogadaRemover) jogada);                               
 			}
 		}
@@ -41,10 +45,33 @@ public class Connect {
         }
 
         public void criaJogadorRemoto(int i, String nomeAdversario) {
-            tabuleiro.setJogadorRemoto(new Jogador(i, nomeAdversario));
+            Jogador remoto = new Jogador(i, nomeAdversario);
+            tabuleiro.setJogadorRemoto(remoto);
+            ranking.setjRemoto(remoto);
         }
 
         public void criaJogadorLocal(int i, String nome) {
-            tabuleiro.setJogadorLocal(new Jogador(i, nome));
-        }    
+            Jogador local = new Jogador(i, nome);
+            tabuleiro.setJogadorLocal(local);
+            ranking.setjLocal(local);
+        }
+        public Jogador temVencedor() {        
+            Jogador jogador = null;
+            jogador = this.getTabuleiro().temVencedor();        
+            if(ranking.getjLocal().equals(jogador)){
+                ranking.getjLocal().newVitoria();
+                ranking.getjRemoto().newDerrota();                      
+            }                
+            else{
+                ranking.getjRemoto().newVitoria();
+                ranking.getjLocal().newDerrota();
+            }            
+            return jogador;
+        }
+        public Ranking getRanking() {
+            return ranking;
+        }
+        public void setRanking(Ranking ranking) {
+            this.ranking = ranking;
+        }   
 }
