@@ -130,13 +130,16 @@ public class AtorJogador  extends JPanel implements MouseListener{
         Jogador vencedor = this.getConnect().temVencedor();
         if(vencedor!=null){     
                 // Ranking
-                connect.getTabuleiro().getJogadorLocal().newVitoria();
-                connect.getTabuleiro().getJogadorRemoto().newDerrota();
+                
             
             if(connect.getTabuleiro().getJogadorLocal().getNome().equals(vencedor.getNome())){
+                connect.getTabuleiro().getJogadorLocal().newVitoria();
+                connect.getTabuleiro().getJogadorRemoto().newDerrota();
                 connect.getTabuleiro().removeMouseListener(this);                
                 JOptionPane.showMessageDialog(null, "PARABÉNS "+vencedor.getNome()+",\n você venceu!!");
             }else{                
+                connect.getTabuleiro().getJogadorLocal().newDerrota();
+                connect.getTabuleiro().getJogadorRemoto().newVitoria();
                 connect.getTabuleiro().removeMouseListener(this);
                 JOptionPane.showMessageDialog(null, "QUE PENA, VOCE PERDEU!");
             }
