@@ -22,6 +22,7 @@ public class Tabuleiro extends JPanel {
         private Connect connect;
         
         public Tabuleiro() {
+            configura();
            this.fichas = new HashMap<String, Ficha>(); 
         }
 	private Posicao getFirstAsInclinacao(String imagemTabuleiro) {
@@ -136,13 +137,13 @@ public class Tabuleiro extends JPanel {
                         for(int j=0; j<16; j++){
                             if(fichas.containsKey(getChave(i, j))){
                                 ficha = fichas.get(getChave(i, j));
-                                if(ficha.getIdJogador()==this.getJogadorLocal().getId()){
+                                if(ficha.getIdJogador()==1){
                                     if(ficha.isVitoria())
                                         g.drawImage(vitoriaLocal, 2+j*40, 2+i*40, 35, 35, this);
                                     else
                                         g.drawImage(jLocal, 2+j*40, 2+i*40, 35, 35, this);
                                     
-                                }else if(ficha.getIdJogador() == this.getJogadorRemoto().getId()){
+                                }else if(ficha.getIdJogador()==2){
                                     if(ficha.isVitoria())
                                         g.drawImage(vitoriaRemoto, 2+j*40, 2+i*40, 35, 35, this);
                                     else
@@ -329,8 +330,8 @@ public class Tabuleiro extends JPanel {
                         retorno = jogadorLocal;
                     else
                         retorno = jogadorRemoto;
-                    // Pontuacao a cada conjunto de fichas
-                    retorno.ganhaPontos(100);
+                    //Pontuacao a cada vitoria
+                    retorno.ganhaPontos(100);                    
                 }
             }
             return retorno;
@@ -340,17 +341,28 @@ public class Tabuleiro extends JPanel {
             // A N I M A C A O
                 int colunaAnimacao=jogada.getColuna();
                 int ultima = this.getUltimaPosicaoLivre(colunaAnimacao);
-
-                    for(int animacao=0; animacao<=ultima;animacao++){
-                        System.out.println("animando "+jogadorLocal.getNome());
+    
+                    for(int animacao=0; animacao<=ultima;animacao++){                        
                         try{
                             this.fichas.put((animacao+"_"+colunaAnimacao),new Ficha(0));
                             this.repaint();
-                            Thread.sleep(25);
+                            Thread.sleep(20);
                             this.fichas.remove((animacao+"_"+colunaAnimacao));
                         }catch (Exception e){}
 
                     }
+        }
+
+    private void configura() {
+        
+        this.setName("Tabuleiro"); 
+        this.setBackground(new java.awt.Color(192, 191, 191));
+        this.setLayout(new java.awt.BorderLayout());
+        this.setPreferredSize(new java.awt.Dimension(240,400));        
+        
+        
+        //connect.getTabuleiro().add(placar);     
+                
         }
           
 }

@@ -30,11 +30,14 @@ public class AtorJogador  extends JPanel implements MouseListener{
 	private String nome;
 	private String servidor;
 	private JPanel mainPanel;
+        private Placar placar;
+        //Layout lay;
         
 	public AtorJogador(JPanel mainPanel){
 		super();
 		this.atorRede = new AtorRede(this);
                 this.mainPanel = mainPanel;                
+                this.placar = new Placar();                
 	}
         public String getNome() {
             return nome;
@@ -44,25 +47,22 @@ public class AtorJogador  extends JPanel implements MouseListener{
         }
     	public void iniciaPartida(boolean comecoJogando){                
 		String nomeAdversario = atorRede.obterNomeAdversario();
-                                        
 		connect = new Connect(new Tabuleiro(), this);
+                // LAYOUT
+                //this.lay = new Layout(connect.getTabuleiro(),this.placar);
+                
                 if(comecoJogando){
-			connect.criaJogadorLocal(1,this.nome);
-			connect.criaJogadorRemoto(2, nomeAdversario);
+                    connect.criaJogadorLocal(1,this.nome);
+                    connect.criaJogadorRemoto(2, nomeAdversario);
 		}else{
                     connect.criaJogadorRemoto(1, nomeAdversario);	
                     connect.criaJogadorLocal(2, this.nome);
-		}
-                
-                connect.getTabuleiro().setBackground(new Color(192, 191, 191));
-                connect.getTabuleiro().setLayout(new java.awt.BorderLayout());
-                //
-                connect.getTabuleiro().setPreferredSize(new java.awt.Dimension(640,400));
-                connect.getTabuleiro().setName("Tabuleiro"); 
-                this.mainPanel.add(connect.getTabuleiro(),"Tabuleiro");                                
+		}                
                 connect.getTabuleiro().addMouseListener(this);    
-                
+                this.mainPanel.add(connect.getTabuleiro(),"Tabuleiro");                                                               
                 ((java.awt.CardLayout)this.mainPanel.getLayout()).show(this.mainPanel,"Tabuleiro");             
+                //this.mainPanel.add(lay,"Layout");                                                               
+                //((java.awt.CardLayout)this.mainPanel.getLayout()).show(this.mainPanel,"Layout");             
                 mainPanel.repaint();                
 	}	
                 
@@ -71,7 +71,7 @@ public class AtorJogador  extends JPanel implements MouseListener{
 	}
 	public void receberJogada(Jogada jogada) {
             if(atorRede.isMinhaVez()&& jogada instanceof JogadaAdicionar){
-                this.connect.getTabuleiro().executeAnimacao((JogadaAdicionar)jogada);
+                //this.connect.getTabuleiro().executeAnimacao((JogadaAdicionar)jogada);
             }
 		if(connect.trataJogada(jogada)){
                     atorRede.enviaJogada(jogada);
@@ -98,24 +98,24 @@ public class AtorJogador  extends JPanel implements MouseListener{
             this.servidor = servidor;
         }
         public void mouseClicked(MouseEvent me) {
-            int coluna, linha;       
-                    if(this.getAtorRede().isMinhaVez()){
-                            coluna = me.getX()/40;
-                            linha = me.getY()/40;                        
-                            if(this.getConnect().isTipoJogadaInsercao()){
-                                // INSERIR Ficha
-                                this.receberJogada(new JogadaAdicionar(coluna, this.getConnect().getTabuleiro().getJogadorLocal().getId()));                            
-                            }else if(!this.getConnect().isTipoJogadaInsercao()){
-                                // REMOVER ficha do adversario
-                                if(this.getConnect().getTabuleiro().getJogadorLocal().hasDels()){
-                                    this.getConnect().getTabuleiro().getJogadorLocal().decrementarDels();
-                                    this.receberJogada(new JogadaRemover(coluna, linha, this.getConnect().getTabuleiro().getJogadorLocal().getId()));
-                                }else{
-                                    JOptionPane.showMessageDialog(null,"Você não possui mais chances de Deletar!");
-                                }                            
-                            }			
-                    }
-                    connect.getTabuleiro().repaint();
+            int coluna, linha;                   
+                if(this.getAtorRede().isMinhaVez()){
+                    coluna = me.getX()/40;
+                    linha = me.getY()/40;                        
+                    if(this.getConnect().isTipoJogadaInsercao()){
+                        // INSERIR Ficha                        
+                        this.receberJogada(new JogadaAdicionar(coluna, this.getConnect().getTabuleiro().getJogadorLocal().getId()));                            
+                    }else if(!this.getConnect().isTipoJogadaInsercao()){
+                        // REMOVER ficha do adversario
+                        if(this.getConnect().getTabuleiro().getJogadorLocal().hasDels()){
+                            this.getConnect().getTabuleiro().getJogadorLocal().decrementarDels();
+                            this.receberJogada(new JogadaRemover(coluna, linha, this.getConnect().getTabuleiro().getJogadorLocal().getId()));
+                        }else{
+                            JOptionPane.showMessageDialog(null,"Você não possui mais chances de Deletar!");
+                        }                            
+                    }			
+                }
+                connect.getTabuleiro().repaint();
         }
 
         public void mousePressed(MouseEvent me) {    }
@@ -128,23 +128,23 @@ public class AtorJogador  extends JPanel implements MouseListener{
         public void setAtorRede(AtorRede atorRede) {
             this.atorRede = atorRede;
         }
-
-    public void verificaVencedor() {
-        Jogador vencedor = this.getConnect().temVencedor();
-        if(vencedor!=null){     
-                            
-            if(connect.getTabuleiro().getJogadorLocal().getNome().equals(vencedor.getNome())){
-                connect.getTabuleiro().getJogadorLocal().newVitoria();
-                connect.getTabuleiro().getJogadorRemoto().newDerrota();
-                connect.getTabuleiro().removeMouseListener(this);                
-                JOptionPane.showMessageDialog(null, "PARABÉNS "+vencedor.getNome()+",\n você venceu!!");
-            }else{                
-                connect.getTabuleiro().getJogadorLocal().newDerrota();
-                connect.getTabuleiro().getJogadorRemoto().newVitoria();
-                connect.getTabuleiro().removeMouseListener(this);
-                JOptionPane.showMessageDialog(null, "QUE PENA, VOCE PERDEU!");
+        public void verificaVencedor() {
+            Jogador vencedor = this.getConnect().temVencedor();
+            if(vencedor!=null){   
+                if(connect.getTabuleiro().getJogadorLocal().getNome().equals(vencedor.getNome())){
+                    connect.getTabuleiro().getJogadorLocal().newVitoria();
+                    connect.getTabuleiro().getJogadorRemoto().newDerrota();
+                    connect.getTabuleiro().removeMouseListener(this);                
+                    JOptionPane.showMessageDialog(null, "PARABÉNS "+vencedor.getNome()+",\n você venceu!!");
+                }else{                
+                    connect.getTabuleiro().getJogadorLocal().newDerrota();
+                    connect.getTabuleiro().getJogadorRemoto().newVitoria();
+                    connect.getTabuleiro().removeMouseListener(this);
+                    JOptionPane.showMessageDialog(null, "QUE PENA, VOCE PERDEU!");
+                }
             }
         }
-    }
+
+    
 }
 

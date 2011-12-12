@@ -18,13 +18,12 @@ public class Connect {
                 this.atorJogador = jo;      
                 this.ranking = new Ranking();
 	}
-
 	public boolean trataJogada(Jogada jogada) {
 		if (atorJogador.getAtorRede().isMinhaVez()) {
 			if (jogada instanceof JogadaAdicionar) {
+                                //tabuleiro.executeAnimacao((JogadaAdicionar)jogada);
 				return tabuleiro.executaJogadaAdicionar((JogadaAdicionar) jogada);                                                                    
-			} else if(jogada instanceof JogadaRemover) {
-                            
+			} else if(jogada instanceof JogadaRemover) {                            
 				return tabuleiro.executaJogadaRemover((JogadaRemover) jogada);                               
 			}
                     return true;
