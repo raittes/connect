@@ -4,6 +4,7 @@ import br.ufsc.inf.leobr.cliente.Jogada;
 import connect.AtorJogador;
 import connect.Jogador;
 import connect.Tabuleiro;
+import javax.swing.ImageIcon;
 
 public class Connect {
 
@@ -46,12 +47,14 @@ public class Connect {
 
         public void criaJogadorRemoto(int i, String nomeAdversario) {
             Jogador remoto = new Jogador(i, nomeAdversario);
+            //        remoto.setIcone(new ImageIcon("src/imagens/jogador2.png").getImage());
             tabuleiro.setJogadorRemoto(remoto);
             ranking.setjRemoto(remoto);
         }
 
         public void criaJogadorLocal(int i, String nome) {
             Jogador local = new Jogador(i, nome);
+            //       local.setIcone(new ImageIcon("src/imagens/jogador1.png").getImage());
             tabuleiro.setJogadorLocal(local);
             ranking.setjLocal(local);
         }

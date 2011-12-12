@@ -12,32 +12,38 @@ import servidor.AtorRede;
 import br.ufsc.inf.leobr.cliente.Jogada;
 import br.ufsc.inf.leobr.cliente.OuvidorProxy;
 import connect.logica.JogadaAdicionar;
+import connect.logica.JogadaFinalizar;
+import connect.logica.JogadaReiniciarPartida;
 import connect.logica.JogadaRemover;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseListener;
 import java.util.Timer;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import org.jdesktop.application.ResourceMap;
 
 
-public class AtorJogador  extends JPanel implements MouseListener{
+public class AtorJogador extends JPanel implements MouseListener{
 
 	private Connect connect;
 	private AtorRede atorRede;
 	private String nome;
 	private String servidor;
 	private JPanel mainPanel;
-        private Placar placar;
-        //Layout lay;
+        private guiPlacar placar;
+        // barra de status no ConnectView
+        private JLabel status;
         
-	public AtorJogador(JPanel mainPanel){
+	public AtorJogador(JPanel mainPanel, JLabel status){
 		super();
 		this.atorRede = new AtorRede(this);
-                this.mainPanel = mainPanel;                
-                this.placar = new Placar();                
+                this.mainPanel = mainPanel;
+                this.status = status;                
 	}
         public String getNome() {
             return nome;
@@ -48,8 +54,7 @@ public class AtorJogador  extends JPanel implements MouseListener{
     	public void iniciaPartida(boolean comecoJogando){                
 		String nomeAdversario = atorRede.obterNomeAdversario();
 		connect = new Connect(new Tabuleiro(), this);
-                // LAYOUT
-                //this.lay = new Layout(connect.getTabuleiro(),this.placar);
+                placar = new guiPlacar(this);
                 
                 if(comecoJogando){
                     connect.criaJogadorLocal(1,this.nome);
@@ -59,24 +64,39 @@ public class AtorJogador  extends JPanel implements MouseListener{
                     connect.criaJogadorLocal(2, this.nome);
 		}                
                 connect.getTabuleiro().addMouseListener(this);    
-                this.mainPanel.add(connect.getTabuleiro(),"Tabuleiro");                                                               
+                
+                // painel layout
+                JPanel layout = new JPanel(new FlowLayout(1));
+                       layout.add(connect.getTabuleiro());                
+                       layout.add(placar);
+                
+                this.mainPanel.add(layout,"Tabuleiro");                                                               
                 ((java.awt.CardLayout)this.mainPanel.getLayout()).show(this.mainPanel,"Tabuleiro");             
-                //this.mainPanel.add(lay,"Layout");                                                               
-                //((java.awt.CardLayout)this.mainPanel.getLayout()).show(this.mainPanel,"Layout");             
+                            
+                this.mainPanel.setBackground(Color.BLACK);
                 mainPanel.repaint();                
 	}	
                 
 	public void iniciarJogo(){
 		atorRede.iniciaPartida();
 	}
+        public void reiniciaPartida(){
+            status.setText("Partida REINICIADA!");
+            connect.getTabuleiro().removeMouseListener(this);
+            this.connect.getTabuleiro().zerar();
+            atorRede.enviaJogada(new JogadaReiniciarPartida());            
+            connect.getTabuleiro().addMouseListener(this);    
+        }
 	public void receberJogada(Jogada jogada) {
             if(atorRede.isMinhaVez()&& jogada instanceof JogadaAdicionar){
-                //this.connect.getTabuleiro().executeAnimacao((JogadaAdicionar)jogada);
+                this.connect.getTabuleiro().executeAnimacao(((JogadaAdicionar)jogada).getColuna());
             }
-		if(connect.trataJogada(jogada)){
-                    atorRede.enviaJogada(jogada);
-                }                
-                this.verificaVencedor();                 
+            
+            if(connect.trataJogada(jogada))
+                atorRede.enviaJogada(jogada);
+                            
+            this.verificaVencedor();                 
+            placar.atualiza();
 	}
 	public Connect getConnect() {
 		return connect;
@@ -85,7 +105,7 @@ public class AtorJogador  extends JPanel implements MouseListener{
 		this.connect = connect;
 	}
 	public void exibeMensagem(String msg) {
-		// TODO Auto-generated method stub
+		status.setText(msg);
 	}       
         public boolean estabelecerConexao(){
                  atorRede.conectar(servidor, nome);            
@@ -105,6 +125,7 @@ public class AtorJogador  extends JPanel implements MouseListener{
                     if(this.getConnect().isTipoJogadaInsercao()){
                         // INSERIR Ficha                        
                         this.receberJogada(new JogadaAdicionar(coluna, this.getConnect().getTabuleiro().getJogadorLocal().getId()));                            
+                        this.connect.getTabuleiro().executeAnimacao((coluna));
                     }else if(!this.getConnect().isTipoJogadaInsercao()){
                         // REMOVER ficha do adversario
                         if(this.getConnect().getTabuleiro().getJogadorLocal().hasDels()){
@@ -117,7 +138,6 @@ public class AtorJogador  extends JPanel implements MouseListener{
                 }
                 connect.getTabuleiro().repaint();
         }
-
         public void mousePressed(MouseEvent me) {    }
         public void mouseReleased(MouseEvent me) {   }
         public void mouseEntered(MouseEvent me) {    }
@@ -144,7 +164,17 @@ public class AtorJogador  extends JPanel implements MouseListener{
                 }
             }
         }
+        public guiPlacar getPlacar() {
+            return placar;
+        }
+        public void setPlacar(guiPlacar placar) {
+            this.placar = placar;
+        }
 
-    
+    void finalizaPartida() {
+        connect.getTabuleiro().removeMouseListener(this);
+        this.connect.getTabuleiro().zerar();
+        atorRede.enviaJogada(new JogadaFinalizar());
+    }
 }
 

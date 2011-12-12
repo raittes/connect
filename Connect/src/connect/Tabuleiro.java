@@ -23,7 +23,7 @@ public class Tabuleiro extends JPanel {
         
         public Tabuleiro() {
             configura();
-           this.fichas = new HashMap<String, Ficha>(); 
+            this.fichas = new HashMap<String, Ficha>(); 
         }
 	private Posicao getFirstAsInclinacao(String imagemTabuleiro) {
 		String aux = ""+imagemTabuleiro.charAt(0);
@@ -55,9 +55,8 @@ public class Tabuleiro extends JPanel {
 	}
 	public boolean executaJogadaAdicionar(JogadaAdicionar jogada) {
             
-            
             if(this.temPosisaoLivre(jogada.getColuna())){
-                executeAnimacao(jogada);
+                executeAnimacao(jogada.getColuna());
 		this.depositaFicha(new Ficha(jogada.getIdJogador()), jogada.getColuna(),jogada.getIdJogador());
                                                                        
                 this.repaint();
@@ -109,7 +108,7 @@ public class Tabuleiro extends JPanel {
             return jogadorLocal;
         }
         public void setJogadorLocal(Jogador jogadorLocal) {
-            this.jogadorLocal = jogadorLocal;
+            this.jogadorLocal = jogadorLocal;            
         }
         public Jogador getJogadorRemoto() {
             return jogadorRemoto;
@@ -118,10 +117,7 @@ public class Tabuleiro extends JPanel {
             this.jogadorRemoto = jogadorRemoto;
         }
         
-        // BACKUP DE SEGURANCA - SEM ANIMACAO
-        
      	public void paintComponent(Graphics g) {
-		
                 // Desenha o tabuleiro
             	Graphics2D g2 = (Graphics2D) g;
 	  	super.paintComponent(g2);		
@@ -153,10 +149,8 @@ public class Tabuleiro extends JPanel {
                                 }
                             }
                         }
-                    }
-                   
-        }
-        
+                    }                   
+        }       
         
          
         private int getUltimaPosicaoLivre(int coluna) {
@@ -337,32 +331,29 @@ public class Tabuleiro extends JPanel {
             return retorno;
         }
 
-        public void executeAnimacao(JogadaAdicionar jogada) {
+        public void executeAnimacao(int colunaAnimacao) {
             // A N I M A C A O
-                int colunaAnimacao=jogada.getColuna();
-                int ultima = this.getUltimaPosicaoLivre(colunaAnimacao);
-    
-                    for(int animacao=0; animacao<=ultima;animacao++){                        
-                        try{
-                            this.fichas.put((animacao+"_"+colunaAnimacao),new Ficha(0));
-                            this.repaint();
-                            Thread.sleep(20);
-                            this.fichas.remove((animacao+"_"+colunaAnimacao));
-                        }catch (Exception e){}
-
-                    }
+            int ultima = this.getUltimaPosicaoLivre(colunaAnimacao);
+                for(int animacao=0; animacao<=ultima;animacao++){                        
+                    try{
+                        this.fichas.put((animacao+"_"+colunaAnimacao),new Ficha(0));
+                        this.repaint();
+                        Thread.sleep(30);
+                        this.fichas.remove((animacao+"_"+colunaAnimacao));
+                    }catch (Exception e){}
+                }
         }
-
     private void configura() {
         
         this.setName("Tabuleiro"); 
         this.setBackground(new java.awt.Color(192, 191, 191));
         this.setLayout(new java.awt.BorderLayout());
-        this.setPreferredSize(new java.awt.Dimension(240,400));        
-        
-        
-        //connect.getTabuleiro().add(placar);     
-                
+        this.setPreferredSize(new java.awt.Dimension(640,400));       
+               
         }
+    public void zerar(){
+        this.fichas = new HashMap<String, Ficha>();
+        this.repaint();
+    }
           
 }

@@ -22,10 +22,9 @@ public class ConnectView extends FrameView {
     public ConnectView(SingleFrameApplication app) {
         super(app);
         
-        
         initComponents();
         // ATOR JOGADOR
-        gui = new AtorJogador(mainPanel);
+        gui = new AtorJogador(mainPanel, statusMessageLabel);
         statusMessageLabel.setText("Aguardando conexão com Servidor!");
         
         
@@ -183,7 +182,7 @@ public class ConnectView extends FrameView {
                     .addComponent(nomeServidor, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(nomeJogador, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
                     .addComponent(botaoConectar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(335, Short.MAX_VALUE))
+                .addContainerGap(216, Short.MAX_VALUE))
         );
         ConectandoLayout.setVerticalGroup(
             ConectandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,7 +197,7 @@ public class ConnectView extends FrameView {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botaoConectar)
-                .addContainerGap(281, Short.MAX_VALUE))
+                .addContainerGap(180, Short.MAX_VALUE))
         );
 
         mainPanel.add(Conectando, "Conectando");
@@ -240,11 +239,11 @@ public class ConnectView extends FrameView {
         Partida.setLayout(PartidaLayout);
         PartidaLayout.setHorizontalGroup(
             PartidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
+            .addGap(0, 631, Short.MAX_VALUE)
         );
         PartidaLayout.setVerticalGroup(
             PartidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGap(0, 374, Short.MAX_VALUE)
         );
 
         mainPanel.add(Partida, "Partida");
@@ -317,6 +316,11 @@ public class ConnectView extends FrameView {
         partidaFinalizar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
         partidaFinalizar.setText(resourceMap.getString("finalizar.text")); // NOI18N
         partidaFinalizar.setName("finalizar"); // NOI18N
+        partidaFinalizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                partidaFinalizarActionPerformed(evt);
+            }
+        });
         menuPartida.add(partidaFinalizar);
 
         menuBar.add(menuPartida);
@@ -459,14 +463,17 @@ public class ConnectView extends FrameView {
     }//GEN-LAST:event_removerActionPerformed
 
     private void partidaReiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_partidaReiniciarActionPerformed
-            gui.iniciarJogo();        
-        
+        gui.reiniciaPartida();        
     }//GEN-LAST:event_partidaReiniciarActionPerformed
 
     private void menuVerRakingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVerRakingActionPerformed
         JOptionPane.showMessageDialog(null, ""+gui.getConnect().getRanking());
         
     }//GEN-LAST:event_menuVerRakingActionPerformed
+
+    private void partidaFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_partidaFinalizarActionPerformed
+        gui.finalizaPartida();        
+    }//GEN-LAST:event_partidaFinalizarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Conectado;

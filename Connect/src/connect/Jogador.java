@@ -1,5 +1,7 @@
 package connect;
 
+import java.awt.Image;
+
 public class Jogador {
 	
 	private String nome;
@@ -8,6 +10,7 @@ public class Jogador {
         private int vitorias;
         private int derrotas;
         private int pontuacao;
+        private Image icone;
         
         public Jogador(int id,String nome) {
                 this.dels = 5;
@@ -59,4 +62,11 @@ public class Jogador {
         void ganhaPontos(int pontos) {
             this.pontuacao+=pontos;
         }
+        public Image getIcone() {
+            return icone;
+        }
+        public void setIcone(Image icone) {
+            this.icone = icone;
+        }
+        
 }

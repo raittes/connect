@@ -12,6 +12,8 @@ import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoJogandoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoPossivelConectarException;
 import connect.logica.JogadaAdicionar;
+import connect.logica.JogadaFinalizar;
+import connect.logica.JogadaReiniciarPartida;
 import connect.logica.JogadaRemover;
 
 public class AtorRede implements OuvidorProxy {
@@ -24,7 +26,7 @@ public class AtorRede implements OuvidorProxy {
 		super();
 		this.atorJogador = atorJogador;
 		this.proxy = Proxy.getInstance();
-                this.proxy.addOuvinte(this);
+                this.proxy.addOuvinte(this);                
 	}
         public boolean isMinhaVez() {
             return minhaVez;
@@ -52,16 +54,17 @@ public class AtorRede implements OuvidorProxy {
 	}
 	public void iniciaPartida(){                
 		try {
-                    proxy.iniciarPartida(2);
+                    proxy.iniciarPartida(2);                    
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 			e.printStackTrace();
-		}            
+		}
 	}		
 	public void enviaJogada(Jogada jogada){
 	    try {
                 	proxy.enviaJogada(jogada);
 			minhaVez = false;
+                        atorJogador.getPlacar().atualiza();
 		} catch (NaoJogandoException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 			e.printStackTrace();
@@ -77,6 +80,8 @@ public class AtorRede implements OuvidorProxy {
 			minhaVez =false;
 		}                
 		atorJogador.iniciaPartida(minhaVez);                
+                atorJogador.exibeMensagem("Partida em andamento!");
+                atorJogador.getPlacar().atualiza();
 	}
 
 	@Override
@@ -89,7 +94,7 @@ public class AtorRede implements OuvidorProxy {
 	}
 	@Override
 	public void receberJogada(Jogada jogada) {   
-                              
+            
                 if(jogada instanceof JogadaAdicionar)
                     atorJogador.getConnect().getTabuleiro().executaJogadaAdicionar((JogadaAdicionar)jogada);
                 else if (jogada instanceof JogadaRemover)
@@ -98,8 +103,18 @@ public class AtorRede implements OuvidorProxy {
                 // Verifica Vencedor            
                 minhaVez = true; 
                 atorJogador.verificaVencedor();
+                atorJogador.getPlacar().atualiza();                
                 
-              
+                if(jogada instanceof JogadaReiniciarPartida){
+                    atorJogador.getConnect().getTabuleiro().zerar();
+                    atorJogador.exibeMensagem("Partida REINCIIADA!");
+                }
+                if(jogada instanceof JogadaFinalizar){
+                    atorJogador.getConnect().getTabuleiro().zerar();
+                    atorJogador.getConnect().getTabuleiro().removeMouseListener(atorJogador);
+                    atorJogador.exibeMensagem("Partida Encerrada!");
+                }
+                
 	}
 	public void desconectar(){
 		try {

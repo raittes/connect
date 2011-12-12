@@ -5,9 +5,6 @@ import br.ufsc.inf.leobr.cliente.Jogada;
 
 public class JogadaAdicionar implements Jogada{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private int idJogador;
