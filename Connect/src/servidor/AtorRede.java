@@ -54,9 +54,9 @@ public class AtorRede implements OuvidorProxy {
 	}
 	public void iniciaPartida(){                
 		try {
-                    proxy.iniciarPartida(2);                    
+                    proxy.iniciarPartida(2);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
+			this.atorJogador.exibeMensagem(e.getMessage());
 			e.printStackTrace();
 		}
 	}		
@@ -79,8 +79,8 @@ public class AtorRede implements OuvidorProxy {
                 else if(posicao == 2){
 			minhaVez =false;
 		}                
-		atorJogador.iniciaPartida(minhaVez);                
-                atorJogador.exibeMensagem("Partida em andamento!");
+		atorJogador.iniciaPartida(minhaVez);
+//                boolean confirm = atorJogador.pergunte("Existe uma partida em andamento. Deseja reiniciar?");
                 atorJogador.getPlacar().atualiza();
 	}
 

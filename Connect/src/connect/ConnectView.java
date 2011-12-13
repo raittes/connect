@@ -1,6 +1,15 @@
 package connect;
 
 import java.awt.Dimension;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
@@ -24,7 +33,7 @@ public class ConnectView extends FrameView {
         
         initComponents();
         // ATOR JOGADOR
-        gui = new AtorJogador(mainPanel, statusMessageLabel);
+        gui = new AtorJogador(mainPanel, statusMessageLabel,this);
         statusMessageLabel.setText("Aguardando conexão com Servidor!");
         
         
@@ -36,7 +45,8 @@ public class ConnectView extends FrameView {
         // Desativa Botoes da Partida
         menuPartida.setEnabled(false);
         menuJogada.setEnabled(false);
-        menuVerRaking.setEnabled(false);        
+        menuVerRaking.setEnabled(false);  
+        menuDesconectar.setEnabled(false);
         
         
         // status bar initialization - message timeout, idle icon and busy animation, etc
@@ -182,7 +192,7 @@ public class ConnectView extends FrameView {
                     .addComponent(nomeServidor, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(nomeJogador, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
                     .addComponent(botaoConectar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(216, Short.MAX_VALUE))
+                .addContainerGap(218, Short.MAX_VALUE))
         );
         ConectandoLayout.setVerticalGroup(
             ConectandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,7 +207,7 @@ public class ConnectView extends FrameView {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botaoConectar)
-                .addContainerGap(180, Short.MAX_VALUE))
+                .addContainerGap(206, Short.MAX_VALUE))
         );
 
         mainPanel.add(Conectando, "Conectando");
@@ -227,7 +237,7 @@ public class ConnectView extends FrameView {
             .addGroup(ConectadoLayout.createSequentialGroup()
                 .addGap(76, 76, 76)
                 .addComponent(buttonIniciarPartida, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(232, Short.MAX_VALUE))
+                .addContainerGap(238, Short.MAX_VALUE))
         );
 
         mainPanel.add(Conectado, "Conectado");
@@ -243,7 +253,7 @@ public class ConnectView extends FrameView {
         );
         PartidaLayout.setVerticalGroup(
             PartidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 374, Short.MAX_VALUE)
+            .addGap(0, 380, Short.MAX_VALUE)
         );
 
         mainPanel.add(Partida, "Partida");
@@ -301,6 +311,11 @@ public class ConnectView extends FrameView {
         partidaIniciar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         partidaIniciar.setText(resourceMap.getString("partidaIniciar.text")); // NOI18N
         partidaIniciar.setName("partidaIniciar"); // NOI18N
+        partidaIniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                partidaIniciarActionPerformed(evt);
+            }
+        });
         menuPartida.add(partidaIniciar);
 
         partidaReiniciar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
@@ -379,7 +394,7 @@ public class ConnectView extends FrameView {
             .addGroup(statusPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(statusMessageLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 445, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 447, Short.MAX_VALUE)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(statusAnimationLabel)
@@ -403,7 +418,7 @@ public class ConnectView extends FrameView {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuConectarActionPerformed
-         statusMessageLabel.setText("Estabelecendo conexão...");   
+      statusMessageLabel.setText("Estabelecendo conexão...");   
         
         if(nomeJogador.getText().isEmpty()){ 
             statusMessageLabel.setText("ERRO: Nome em branco!");   
@@ -413,11 +428,17 @@ public class ConnectView extends FrameView {
             gui.setServidor(nomeServidor.getText());
             gui.setNome(nomeJogador.getText());      
             if(estabelecerConexao()){
-                menuPartida.setEnabled(true);       
-                menuJogada.setEnabled(true);
+                menuPartida.setEnabled(true);    
+                menuDesconectar.setEnabled(true);
+                menuVerRaking.setEnabled(false);
+                partidaIniciar.setEnabled(true);
+                partidaFinalizar.setEnabled(false);
+                partidaReiniciar.setEnabled(false);
+                menuConectar.setEnabled(false);
                 statusMessageLabel.setText("Conexão estabelecida! - Aguardando Partida");
             }
-        }              
+        }        
+       
     }//GEN-LAST:event_menuConectarActionPerformed
 
     private void menuDesconectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDesconectarActionPerformed
@@ -426,6 +447,9 @@ public class ConnectView extends FrameView {
         statusMessageLabel.setText("Conexão Encerrada");
         menuPartida.setEnabled(false);
         menuJogada.setEnabled(false);
+        menuVerRaking.setEnabled(false);
+        menuConectar.setEnabled(true);
+        menuDesconectar.setEnabled(false);
     }//GEN-LAST:event_menuDesconectarActionPerformed
 
     private void botaoConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoConectarActionPerformed
@@ -439,8 +463,13 @@ public class ConnectView extends FrameView {
             gui.setServidor(nomeServidor.getText());
             gui.setNome(nomeJogador.getText());      
             if(estabelecerConexao()){
-                menuPartida.setEnabled(true);       
-                menuJogada.setEnabled(true);
+                menuPartida.setEnabled(true);    
+                menuDesconectar.setEnabled(true);
+                menuVerRaking.setEnabled(false);
+                partidaIniciar.setEnabled(true);
+                partidaFinalizar.setEnabled(false);
+                partidaReiniciar.setEnabled(false);
+                menuConectar.setEnabled(false);
                 statusMessageLabel.setText("Conexão estabelecida! - Aguardando Partida");
             }
         }        
@@ -448,9 +477,8 @@ public class ConnectView extends FrameView {
     }//GEN-LAST:event_botaoConectarActionPerformed
 
     private void buttonIniciarPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonIniciarPartidaActionPerformed
+        gui.iniciarJogo();  
         statusMessageLabel.setText("Nova Partida");
-        //menuJogada.setEnabled(true);
-        gui.iniciarJogo();        
     }//GEN-LAST:event_buttonIniciarPartidaActionPerformed
 
     private void inserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserirActionPerformed
@@ -474,6 +502,11 @@ public class ConnectView extends FrameView {
     private void partidaFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_partidaFinalizarActionPerformed
         gui.finalizaPartida();        
     }//GEN-LAST:event_partidaFinalizarActionPerformed
+
+private void partidaIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_partidaIniciarActionPerformed
+        gui.iniciarJogo();   
+        statusMessageLabel.setText("Nova Partida");   
+}//GEN-LAST:event_partidaIniciarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Conectado;
@@ -530,4 +563,221 @@ public class ConnectView extends FrameView {
         }
         
     }
+
+    public JPanel getConectado() {
+        return Conectado;
+    }
+
+    public void setConectado(JPanel Conectado) {
+        this.Conectado = Conectado;
+    }
+
+    public JPanel getConectando() {
+        return Conectando;
+    }
+
+    public void setConectando(JPanel Conectando) {
+        this.Conectando = Conectando;
+    }
+
+    public JPanel getPartida() {
+        return Partida;
+    }
+
+    public void setPartida(JPanel Partida) {
+        this.Partida = Partida;
+    }
+
+    public JDialog getAboutBox() {
+        return aboutBox;
+    }
+
+    public void setAboutBox(JDialog aboutBox) {
+        this.aboutBox = aboutBox;
+    }
+
+    public JToggleButton getBotaoConectar() {
+        return botaoConectar;
+    }
+
+    public void setBotaoConectar(JToggleButton botaoConectar) {
+        this.botaoConectar = botaoConectar;
+    }
+
+    public int getBusyIconIndex() {
+        return busyIconIndex;
+    }
+
+    public void setBusyIconIndex(int busyIconIndex) {
+        this.busyIconIndex = busyIconIndex;
+    }
+
+    public JButton getButtonIniciarPartida() {
+        return buttonIniciarPartida;
+    }
+
+    public void setButtonIniciarPartida(JButton buttonIniciarPartida) {
+        this.buttonIniciarPartida = buttonIniciarPartida;
+    }
+
+    public AtorJogador getGui() {
+        return gui;
+    }
+
+    public void setGui(AtorJogador gui) {
+        this.gui = gui;
+    }
+
+    public JRadioButtonMenuItem getInserir() {
+        return inserir;
+    }
+
+    public void setInserir(JRadioButtonMenuItem inserir) {
+        this.inserir = inserir;
+    }
+
+    public JLabel getjLabel1() {
+        return jLabel1;
+    }
+
+    public void setjLabel1(JLabel jLabel1) {
+        this.jLabel1 = jLabel1;
+    }
+
+    public JLabel getjLabel2() {
+        return jLabel2;
+    }
+
+    public void setjLabel2(JLabel jLabel2) {
+        this.jLabel2 = jLabel2;
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+
+    public void setMainPanel(JPanel mainPanel) {
+        this.mainPanel = mainPanel;
+    }
+
+    public JMenuItem getMenuConectar() {
+        return menuConectar;
+    }
+
+    public void setMenuConectar(JMenuItem menuConectar) {
+        this.menuConectar = menuConectar;
+    }
+
+    public JMenuItem getMenuDesconectar() {
+        return menuDesconectar;
+    }
+
+    public void setMenuDesconectar(JMenuItem menuDesconectar) {
+        this.menuDesconectar = menuDesconectar;
+    }
+
+    public JMenu getMenuJogada() {
+        return menuJogada;
+    }
+
+    public void setMenuJogada(JMenu menuJogada) {
+        this.menuJogada = menuJogada;
+    }
+
+    public JMenu getMenuPartida() {
+        return menuPartida;
+    }
+
+    public void setMenuPartida(JMenu menuPartida) {
+        this.menuPartida = menuPartida;
+    }
+
+    public JMenuItem getMenuVerRaking() {
+        return menuVerRaking;
+    }
+
+    public void setMenuVerRaking(JMenuItem menuVerRaking) {
+        this.menuVerRaking = menuVerRaking;
+    }
+
+    public JTextField getNomeJogador() {
+        return nomeJogador;
+    }
+
+    public void setNomeJogador(JTextField nomeJogador) {
+        this.nomeJogador = nomeJogador;
+    }
+
+    public JTextField getNomeServidor() {
+        return nomeServidor;
+    }
+
+    public void setNomeServidor(JTextField nomeServidor) {
+        this.nomeServidor = nomeServidor;
+    }
+
+    public JMenuItem getPartidaFinalizar() {
+        return partidaFinalizar;
+    }
+
+    public void setPartidaFinalizar(JMenuItem partidaFinalizar) {
+        this.partidaFinalizar = partidaFinalizar;
+    }
+
+    public JMenuItem getPartidaIniciar() {
+        return partidaIniciar;
+    }
+
+    public void setPartidaIniciar(JMenuItem partidaIniciar) {
+        this.partidaIniciar = partidaIniciar;
+    }
+
+    public JMenuItem getPartidaReiniciar() {
+        return partidaReiniciar;
+    }
+
+    public void setPartidaReiniciar(JMenuItem partidaReiniciar) {
+        this.partidaReiniciar = partidaReiniciar;
+    }
+
+    public JProgressBar getProgressBar() {
+        return progressBar;
+    }
+
+    public void setProgressBar(JProgressBar progressBar) {
+        this.progressBar = progressBar;
+    }
+
+    public JRadioButtonMenuItem getRemover() {
+        return remover;
+    }
+
+    public void setRemover(JRadioButtonMenuItem remover) {
+        this.remover = remover;
+    }
+
+    public JLabel getStatusAnimationLabel() {
+        return statusAnimationLabel;
+    }
+
+    public void setStatusAnimationLabel(JLabel statusAnimationLabel) {
+        this.statusAnimationLabel = statusAnimationLabel;
+    }
+
+    public JLabel getStatusMessageLabel() {
+        return statusMessageLabel;
+    }
+
+    public void setStatusMessageLabel(JLabel statusMessageLabel) {
+        this.statusMessageLabel = statusMessageLabel;
+    }
+
+    public JPanel getStatusPanel() {
+        return statusPanel;
+    }
+
+    public void setStatusPanel(JPanel statusPanel) {
+        this.statusPanel = statusPanel;
+    }
+    
 }

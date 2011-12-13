@@ -24,54 +24,55 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jogadorLocal" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jLocal" min="-2" max="-2" attributes="0"/>
-                  </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="jogadorLocal" min="-2" max="-2" attributes="1"/>
+                  <Component id="jogadorRemoto" max="32767" attributes="1"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jogadorRemoto" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jRemoto" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLocal" min="-2" max="-2" attributes="0"/>
+                          <Component id="jRemoto" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="187" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="labelVez" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="139" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="labelVez" min="-2" max="-2" attributes="0"/>
-                  <Component id="vez" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="209" max="-2" attributes="0"/>
+              <Component id="vez" pref="39" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="305" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                  <Group type="102" alignment="0" attributes="1">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="jLocal" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jRemoto" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="vez" min="-2" max="-2" attributes="1"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                      <Component id="jLocal" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                       <Component id="labelVez" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                      <Component id="jRemoto" min="-2" pref="17" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jogadorLocal" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jogadorRemoto" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="vez" alignment="0" pref="82" max="32767" attributes="1"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jogadorLocal" min="-2" max="-2" attributes="1"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jogadorRemoto" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="62" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -79,34 +80,18 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLocal">
       <Properties>
+        <Property name="font" type="java.awt.Font" resourceKey="jLocal.font"/>
         <Property name="text" type="java.lang.String" resourceKey="jLocal.text"/>
         <Property name="name" type="java.lang.String" value="jLocal" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jRemoto">
       <Properties>
+        <Property name="font" type="java.awt.Font" resourceKey="jRemoto.font"/>
         <Property name="text" type="java.lang.String" resourceKey="jRemoto.text"/>
         <Property name="name" type="java.lang.String" value="jRemoto" noResource="true"/>
       </Properties>
     </Component>
-    <Container class="javax.swing.JPanel" name="vez">
-      <Properties>
-        <Property name="name" type="java.lang.String" value="vez" noResource="true"/>
-      </Properties>
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="56" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="32" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-    </Container>
     <Component class="javax.swing.JLabel" name="labelVez">
       <Properties>
         <Property name="font" type="java.awt.Font" resourceKey="labelVez.font"/>
@@ -128,6 +113,16 @@
         <Property name="text" type="java.lang.String" resourceKey="jogadorRemoto.text"/>
         <Property name="name" type="java.lang.String" value="jogadorRemoto" noResource="true"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="vez">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="vez.icon"/>
+        <Property name="text" type="java.lang.String" resourceKey="vez.text"/>
+        <Property name="name" type="java.lang.String" value="vez" noResource="true"/>
+      </Properties>
+      <AccessibilityProperties>
+        <Property name="AccessibleContext.accessibleName" type="java.lang.String" resourceKey="vez.AccessibleContext.accessibleName"/>
+      </AccessibilityProperties>
     </Component>
   </SubComponents>
 </Form>

@@ -12,52 +12,20 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Tabuleiro extends JPanel {
-	private static final int PLANO = 0;	
-	private static final int ESQUERDA = 1;
-	private static final int DIREITA  = 2;
 
 	private HashMap<String, Ficha> fichas;
 	private Jogador jogadorLocal;
 	private Jogador jogadorRemoto;
-        private Connect connect;
         
         public Tabuleiro() {
             configura();
             this.fichas = new HashMap<String, Ficha>(); 
         }
-	private Posicao getFirstAsInclinacao(String imagemTabuleiro) {
-		String aux = ""+imagemTabuleiro.charAt(0);
-		imagemTabuleiro = imagemTabuleiro.substring(1);
-		return new PosicaoInclinacao(Integer.parseInt(aux));
-	}
-	private Posicao getFirstAsPosicao(String imagemTabuleiro) {
-		String aux = ""+imagemTabuleiro.charAt(0);
-		imagemTabuleiro = imagemTabuleiro.substring(1);
-		Posicao retorno = null;
-		switch (Integer.parseInt(aux)) {
-		case 1:
-			new Posicao(new Ficha(this.getJogadorLocal().getId()),true);
-			break;
-		case 2: 
-			new Posicao(new Ficha(this.getJogadorRemoto().getId()),true);
-			break;
-		default:
-			new Posicao();
-			break;
-		}
-		return retorno;
-	}
-        
-	private int getFirstAsInt(String imagemTabuleiro){
-		String aux = ""+imagemTabuleiro.charAt(0);
-		imagemTabuleiro = imagemTabuleiro.substring(1);
-		return Integer.parseInt(aux);
-	}
 	public boolean executaJogadaAdicionar(JogadaAdicionar jogada) {
             
             if(this.temPosisaoLivre(jogada.getColuna())){
                 executeAnimacao(jogada.getColuna());
-		this.depositaFicha(new Ficha(jogada.getIdJogador()), jogada.getColuna(),jogada.getIdJogador());
+		this.depositaFicha(jogada.getColuna(),jogada.getIdJogador());
                                                                        
                 this.repaint();
                 return true;
@@ -65,7 +33,7 @@ public class Tabuleiro extends JPanel {
             return false;
 		
 	}
-	private void depositaFicha(Ficha ficha, int coluna, int idJogador) {
+	private void depositaFicha(int coluna, int idJogador) {
             int ultima = getUltimaPosicaoLivre(coluna);
 		if (ultima != -1) {
 			fichas.put((ultima+"_"+coluna),new Ficha(idJogador));
@@ -340,7 +308,9 @@ public class Tabuleiro extends JPanel {
                         this.repaint();
                         Thread.sleep(30);
                         this.fichas.remove((animacao+"_"+colunaAnimacao));
-                    }catch (Exception e){}
+                    }catch (Exception e){
+                        JOptionPane.showMessageDialog(this, "ele esta escondendo o erro!");
+                    }
                 }
         }
     private void configura() {
@@ -355,5 +325,6 @@ public class Tabuleiro extends JPanel {
         this.fichas = new HashMap<String, Ficha>();
         this.repaint();
     }
+    
           
 }

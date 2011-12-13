@@ -4,7 +4,6 @@ import br.ufsc.inf.leobr.cliente.Jogada;
 import connect.AtorJogador;
 import connect.Jogador;
 import connect.Tabuleiro;
-import javax.swing.ImageIcon;
 
 public class Connect {
 
