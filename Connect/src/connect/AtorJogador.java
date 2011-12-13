@@ -86,12 +86,15 @@ public class AtorJogador extends JPanel implements MouseListener{
             atorRede.enviaJogada(new JogadaReiniciarPartida());            
             connect.getTabuleiro().addMouseListener(this);    
         }
-	public void receberJogada(Jogada jogada) {
-           if(connect.trataJogada(jogada)){
+	public boolean receberJogada(Jogada jogada) {
+           boolean retorno = false;
+            if(connect.trataJogada(jogada)){
                 atorRede.enviaJogada(jogada);
+                retorno = true;
            }
             this.verificaVencedor();                 
             placar.atualiza();
+            return retorno;
 	}
 	public Connect getConnect() {
 		return connect;
@@ -123,8 +126,9 @@ public class AtorJogador extends JPanel implements MouseListener{
                     }else if(!this.getConnect().isTipoJogadaInsercao()){
                         // REMOVER ficha do adversario
                         if(this.getConnect().getTabuleiro().getJogadorLocal().hasDels()){
-                            this.getConnect().getTabuleiro().getJogadorLocal().decrementarDels();
-                            this.receberJogada(new JogadaRemover(coluna, linha, this.getConnect().getTabuleiro().getJogadorLocal().getId()));
+                            if(this.receberJogada(new JogadaRemover(coluna, linha, this.getConnect().getTabuleiro().getJogadorLocal().getId()))){
+                                this.getConnect().getTabuleiro().getJogadorLocal().decrementarDels();
+                            }
                         }else{
                             JOptionPane.showMessageDialog(null,"Você não possui mais chances de Deletar!");
                         }                            
@@ -145,21 +149,28 @@ public class AtorJogador extends JPanel implements MouseListener{
         public void verificaVencedor() {
             Jogador vencedor = this.getConnect().temVencedor();
             if(vencedor!=null){   
+                String menssagem;
                 if(connect.getTabuleiro().getJogadorLocal().getNome().equals(vencedor.getNome())){
-                    connect.getTabuleiro().getJogadorLocal().newVitoria();
-                    connect.getTabuleiro().getJogadorRemoto().newDerrota();
                     connect.getTabuleiro().removeMouseListener(this);                
-                    JOptionPane.showMessageDialog(null, "PARABÉNS "+vencedor.getNome()+",\n você venceu!!");                    
-                }else{                
-                    connect.getTabuleiro().getJogadorLocal().newDerrota();
-                    connect.getTabuleiro().getJogadorRemoto().newVitoria();
+                    this.connect.getRanking().addVitoria();
+                    menssagem = "PARABÉNS "+vencedor.getNome()+",\n você venceu!!\nDeseja Continuar?";
+
+                    
+                }else{ 
+                    this.connect.getRanking().addDerrota();
+                    menssagem = "QUE PENA, VOCE PERDEU!\nDeseja Continuar?";
                     connect.getTabuleiro().removeMouseListener(this);
-                    JOptionPane.showMessageDialog(null, "QUE PENA, VOCE PERDEU!");
                 }
                 this.connectView.getPartidaFinalizar().setEnabled(false);
                 this.connectView.getPartidaIniciar().setEnabled(true);
                 this.connectView.getPartidaReiniciar().setEnabled(false);
+                if(JOptionPane.showConfirmDialog(mainPanel,menssagem)==0){
+                        ((java.awt.CardLayout)this.mainPanel.getLayout()).show(this.mainPanel,"Conectado");
+                    }else{
+                        System.exit(0);
+                    }
             }
+
         }
         public guiPlacar getPlacar() {
             return placar;
