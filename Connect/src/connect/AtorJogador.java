@@ -128,6 +128,8 @@ public class AtorJogador extends JPanel implements MouseListener{
                         if(this.getConnect().getTabuleiro().getJogadorLocal().hasDels()){
                             if(this.receberJogada(new JogadaRemover(coluna, linha, this.getConnect().getTabuleiro().getJogadorLocal().getId()))){
                                 this.getConnect().getTabuleiro().getJogadorLocal().decrementarDels();
+                                this.placar.atualiza();
+                                        
                             }
                         }else{
                             JOptionPane.showMessageDialog(null,"Você não possui mais chances de Deletar!");
@@ -157,7 +159,7 @@ public class AtorJogador extends JPanel implements MouseListener{
 
                     
                 }else{ 
-                    this.connect.getRanking().addDerrota();
+                    this.connect.getRanking().addDerrota() ;
                     menssagem = "QUE PENA, VOCE PERDEU!\nDeseja Continuar?";
                     connect.getTabuleiro().removeMouseListener(this);
                 }

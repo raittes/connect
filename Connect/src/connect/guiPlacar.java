@@ -31,8 +31,10 @@ public class guiPlacar extends javax.swing.JPanel {
         }
         else{
             vez.setIcon(jogadorRemoto.getIcon());
-        }        
-        
+        }   
+         
+         drop.setText("Drops: "+gui.getConnect().getTabuleiro().getJogadorLocal().getDels());
+         this.repaint();
         
     }
 
@@ -47,6 +49,7 @@ public class guiPlacar extends javax.swing.JPanel {
         jogadorLocal = new javax.swing.JLabel();
         jogadorRemoto = new javax.swing.JLabel();
         vez = new javax.swing.JLabel();
+        drop = new javax.swing.JLabel();
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(connect.ConnectApp.class).getContext().getResourceMap(guiPlacar.class);
         setBackground(resourceMap.getColor("Form.background")); // NOI18N
@@ -78,6 +81,10 @@ public class guiPlacar extends javax.swing.JPanel {
         vez.setText(resourceMap.getString("vez.text")); // NOI18N
         vez.setName("vez"); // NOI18N
 
+        drop.setFont(resourceMap.getFont("drop.font")); // NOI18N
+        drop.setText(resourceMap.getString("drop.text")); // NOI18N
+        drop.setName("drop"); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -88,17 +95,16 @@ public class guiPlacar extends javax.swing.JPanel {
                     .addComponent(jogadorLocal)
                     .addComponent(jogadorRemoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLocal)
+                    .addComponent(jRemoto))
+                .addGap(150, 150, 150)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLocal)
-                            .addComponent(jRemoto))
-                        .addGap(187, 187, 187))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelVez)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(vez, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-                .addGap(305, 305, 305))
+                    .addComponent(drop, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelVez, javax.swing.GroupLayout.Alignment.LEADING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(vez, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(240, 240, 240))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,22 +115,28 @@ public class guiPlacar extends javax.swing.JPanel {
                         .addComponent(jLocal)
                         .addGap(8, 8, 8)
                         .addComponent(labelVez)
-                        .addGap(4, 4, 4)
-                        .addComponent(jRemoto, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addComponent(jRemoto, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(drop))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(vez, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                            .addComponent(vez, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jogadorLocal)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jogadorRemoto)))))
-                .addGap(65, 65, 65))
+                .addGap(51, 51, 51))
         );
 
         vez.getAccessibleContext().setAccessibleName(resourceMap.getString("vez.AccessibleContext.accessibleName")); // NOI18N
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel drop;
     private javax.swing.JLabel jLocal;
     private javax.swing.JLabel jRemoto;
     private javax.swing.JLabel jogadorLocal;
