@@ -432,8 +432,8 @@ public class ConnectView extends FrameView {
                 menuDesconectar.setEnabled(true);
                 menuVerRaking.setEnabled(false);
                 partidaIniciar.setEnabled(true);
-                partidaFinalizar.setEnabled(false);
-                partidaReiniciar.setEnabled(false);
+                //partidaFinalizar.setEnabled(false);
+                //partidaReiniciar.setEnabled(false);
                 menuConectar.setEnabled(false);
                 statusMessageLabel.setText("Conexão estabelecida! - Aguardando Partida");
             }
@@ -500,7 +500,8 @@ public class ConnectView extends FrameView {
     }//GEN-LAST:event_menuVerRakingActionPerformed
 
     private void partidaFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_partidaFinalizarActionPerformed
-        gui.finalizaPartida();        
+        gui.finalizaPartida();
+        partidaIniciar.setEnabled(true);
     }//GEN-LAST:event_partidaFinalizarActionPerformed
 
 private void partidaIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_partidaIniciarActionPerformed

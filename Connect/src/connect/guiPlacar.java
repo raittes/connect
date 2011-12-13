@@ -16,7 +16,7 @@ public class guiPlacar extends javax.swing.JPanel {
     }
     
     public void atualiza(){
-        jLocal.setText("Você: "+gui.getConnect().getTabuleiro().getJogadorLocal().getNome()+"("+""+")");
+        jLocal.setText("Você: "+gui.getConnect().getTabuleiro().getJogadorLocal().getNome());
         jRemoto.setText("Adversário: "+gui.getConnect().getTabuleiro().getJogadorRemoto().getNome());
        //troca icones conforme cor do jogador
         if(gui.getConnect().getTabuleiro().getJogadorLocal().getId()==1){
@@ -31,8 +31,7 @@ public class guiPlacar extends javax.swing.JPanel {
         }
         else{
             vez.setIcon(jogadorRemoto.getIcon());
-        }
-        
+        }        
         
         
     }

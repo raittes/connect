@@ -168,14 +168,14 @@ public class AtorJogador extends JPanel implements MouseListener{
             this.placar = placar;
         }
 
-    void finalizaPartida() {
-        connect.getTabuleiro().removeMouseListener(this);
-        this.connect.getTabuleiro().zerar();
-        atorRede.enviaJogada(new JogadaFinalizar());
-    }
+        void finalizaPartida() {
+            connect.getTabuleiro().removeMouseListener(this);
+            this.connect.getTabuleiro().zerar();
+            atorRede.enviaJogada(new JogadaFinalizar());       
+        }
 
-    public boolean pergunte(String string) {
-        return JOptionPane.showConfirmDialog(this.getConnect().getTabuleiro(), string)==1;
-    }
+        public boolean pergunte(String string) {
+            return JOptionPane.showConfirmDialog(this.getConnect().getTabuleiro(), string)==1;
+        }
 }
 

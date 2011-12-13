@@ -43,7 +43,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <Component id="vez" pref="39" max="32767" attributes="0"/>
+              <Component id="vez" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="305" max="-2" attributes="0"/>
           </Group>
       </Group>
