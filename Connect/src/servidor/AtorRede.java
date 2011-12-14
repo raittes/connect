@@ -97,22 +97,23 @@ public class AtorRede implements OuvidorProxy {
             
                 if(jogada instanceof JogadaAdicionar)
                     atorJogador.getConnect().getTabuleiro().executaJogadaAdicionar((JogadaAdicionar)jogada);
-                else if (jogada instanceof JogadaRemover)
+                if (jogada instanceof JogadaRemover)
                     atorJogador.getConnect().getTabuleiro().executaJogadaRemover((JogadaRemover)jogada);                
-                
-                // Verifica Vencedor            
-                minhaVez = true; 
-                atorJogador.verificaVencedor();
-                atorJogador.getPlacar().atualiza();                
-                
-                if(jogada instanceof JogadaReiniciarPartida){
-                    atorJogador.getConnect().getTabuleiro().zerar();
-                    atorJogador.exibeMensagem("Partida REINCIIADA!");
-                }
                 if(jogada instanceof JogadaFinalizar){
                     atorJogador.getConnect().getTabuleiro().zerar();
                     atorJogador.getConnect().getTabuleiro().removeMouseListener(atorJogador);
                     atorJogador.exibeMensagem("Partida Encerrada!");
+                }else{
+                
+                    // Verifica Vencedor            
+                    minhaVez = true; 
+                    atorJogador.getConnect().verificaVencedor();
+                    atorJogador.getPlacar().atualiza();                
+
+                    if(jogada instanceof JogadaReiniciarPartida){
+                        atorJogador.getConnect().getTabuleiro().zerar();
+                        atorJogador.exibeMensagem("Partida REINCIIADA!");
+                    }
                 }
                 
 	}

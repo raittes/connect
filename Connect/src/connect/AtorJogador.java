@@ -92,7 +92,7 @@ public class AtorJogador extends JPanel implements MouseListener{
                 atorRede.enviaJogada(jogada);
                 retorno = true;
            }
-            this.verificaVencedor();                 
+            connect.verificaVencedor();                 
             placar.atualiza();
             return retorno;
 	}
@@ -148,32 +148,32 @@ public class AtorJogador extends JPanel implements MouseListener{
         public void setAtorRede(AtorRede atorRede) {
             this.atorRede = atorRede;
         }
-        public void verificaVencedor() {
-            Jogador vencedor = this.getConnect().temVencedor();
-            if(vencedor!=null){   
-                String menssagem;
-                if(connect.getTabuleiro().getJogadorLocal().getNome().equals(vencedor.getNome())){
-                    connect.getTabuleiro().removeMouseListener(this);                
-                    this.connect.getRanking().addVitoria();
-                    menssagem = "PARABÉNS "+vencedor.getNome()+",\n você venceu!!\nDeseja Continuar?";
-
-                    
-                }else{ 
-                    this.connect.getRanking().addDerrota() ;
-                    menssagem = "QUE PENA, VOCE PERDEU!\nDeseja Continuar?";
-                    connect.getTabuleiro().removeMouseListener(this);
-                }
-                this.connectView.getPartidaFinalizar().setEnabled(false);
-                this.connectView.getPartidaIniciar().setEnabled(true);
-                this.connectView.getPartidaReiniciar().setEnabled(false);
-                if(JOptionPane.showConfirmDialog(mainPanel,menssagem)==0){
-                        ((java.awt.CardLayout)this.mainPanel.getLayout()).show(this.mainPanel,"Conectado");
-                    }else{
-                        System.exit(0);
-                    }
-            }
-
-        }
+//        public void verificaVencedor() {
+//            Jogador vencedor = this.getConnect().temVencedor();
+//            if(vencedor!=null){   
+//                String menssagem;
+//                if(connect.getTabuleiro().getJogadorLocal().getNome().equals(vencedor.getNome())){
+//                    connect.getTabuleiro().removeMouseListener(this);                
+//                    this.connect.getRanking().addVitoria();
+//                    menssagem = "PARABÉNS "+vencedor.getNome()+",\n você venceu!!\nDeseja Continuar?";
+//
+//                    
+//                }else{ 
+//                    this.connect.getRanking().addDerrota() ;
+//                    menssagem = "QUE PENA, VOCE PERDEU!\nDeseja Continuar?";
+//                    connect.getTabuleiro().removeMouseListener(this);
+//                }
+//                this.connectView.getPartidaFinalizar().setEnabled(false);
+//                this.connectView.getPartidaIniciar().setEnabled(true);
+//                this.connectView.getPartidaReiniciar().setEnabled(false);
+//                if(JOptionPane.showConfirmDialog(mainPanel,menssagem)==0){
+//                        ((java.awt.CardLayout)this.mainPanel.getLayout()).show(this.mainPanel,"Conectado");
+//                    }else{
+//                        System.exit(0);
+//                    }
+//            }
+//
+//        }
         public guiPlacar getPlacar() {
             return placar;
         }
@@ -181,10 +181,11 @@ public class AtorJogador extends JPanel implements MouseListener{
             this.placar = placar;
         }
 
-        void finalizaPartida() {
+        public void finalizaPartida() {
             connect.getTabuleiro().removeMouseListener(this);
             this.connect.getTabuleiro().zerar();
-            atorRede.enviaJogada(new JogadaFinalizar());       
+            atorRede.enviaJogada(new JogadaFinalizar());     
+            ((java.awt.CardLayout)this.mainPanel.getLayout()).show(this.mainPanel,"Conectado");    
         }
 
         public boolean pergunte(String string) {

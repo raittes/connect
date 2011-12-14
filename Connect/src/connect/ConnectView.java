@@ -27,13 +27,13 @@ import javax.swing.JOptionPane;
  * The application's main frame.
  */
 public class ConnectView extends FrameView {
-    AtorJogador gui;
+    AtorJogador atorJogador;
     public ConnectView(SingleFrameApplication app) {
         super(app);
         
         initComponents();
         // ATOR JOGADOR
-        gui = new AtorJogador(mainPanel, statusMessageLabel,this);
+        atorJogador = new AtorJogador(mainPanel, statusMessageLabel,this);
         statusMessageLabel.setText("Aguardando conexão com Servidor!");
         
         
@@ -425,8 +425,8 @@ public class ConnectView extends FrameView {
         }else if(nomeServidor.getText().isEmpty()){
             statusMessageLabel.setText("ERRO: Servidor em branco");   
         }else{            
-            gui.setServidor(nomeServidor.getText());
-            gui.setNome(nomeJogador.getText());      
+            atorJogador.setServidor(nomeServidor.getText());
+            atorJogador.setNome(nomeJogador.getText());      
             if(estabelecerConexao()){
                 menuPartida.setEnabled(true);    
                 menuDesconectar.setEnabled(true);
@@ -442,7 +442,7 @@ public class ConnectView extends FrameView {
     }//GEN-LAST:event_menuConectarActionPerformed
 
     private void menuDesconectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDesconectarActionPerformed
-        gui.getAtorRede().desconectar();        
+        atorJogador.getAtorRede().desconectar();        
         ((java.awt.CardLayout)mainPanel.getLayout()).show(mainPanel,"Conectando");
         statusMessageLabel.setText("Conexão Encerrada");
         menuPartida.setEnabled(false);
@@ -460,8 +460,8 @@ public class ConnectView extends FrameView {
         }else if(nomeServidor.getText().isEmpty()){
             statusMessageLabel.setText("ERRO: Servidor em branco");   
         }else{            
-            gui.setServidor(nomeServidor.getText());
-            gui.setNome(nomeJogador.getText());      
+            atorJogador.setServidor(nomeServidor.getText());
+            atorJogador.setNome(nomeJogador.getText());      
             if(estabelecerConexao()){
                 menuPartida.setEnabled(true);    
                 menuDesconectar.setEnabled(true);
@@ -477,35 +477,35 @@ public class ConnectView extends FrameView {
     }//GEN-LAST:event_botaoConectarActionPerformed
 
     private void buttonIniciarPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonIniciarPartidaActionPerformed
-        gui.iniciarJogo();  
+        atorJogador.iniciarJogo();  
         statusMessageLabel.setText("Nova Partida");
     }//GEN-LAST:event_buttonIniciarPartidaActionPerformed
 
     private void inserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserirActionPerformed
-        gui.getConnect().setTipoJogadaInsercao(true);
+        atorJogador.getConnect().setTipoJogadaInsercao(true);
         remover.setSelected(false);        
     }//GEN-LAST:event_inserirActionPerformed
     private void removerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerActionPerformed
-          gui.getConnect().setTipoJogadaInsercao(false);
+          atorJogador.getConnect().setTipoJogadaInsercao(false);
           inserir.setSelected(false);
     }//GEN-LAST:event_removerActionPerformed
 
     private void partidaReiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_partidaReiniciarActionPerformed
-        gui.reiniciaPartida();        
+        atorJogador.reiniciaPartida();        
     }//GEN-LAST:event_partidaReiniciarActionPerformed
 
     private void menuVerRakingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVerRakingActionPerformed
-        JOptionPane.showMessageDialog(null, ""+gui.getConnect().getRanking());
+        JOptionPane.showMessageDialog(null, ""+atorJogador.getConnect().getRanking());
         
     }//GEN-LAST:event_menuVerRakingActionPerformed
 
     private void partidaFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_partidaFinalizarActionPerformed
-        gui.finalizaPartida();
+        atorJogador.finalizaPartida();
         partidaIniciar.setEnabled(true);
     }//GEN-LAST:event_partidaFinalizarActionPerformed
 
 private void partidaIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_partidaIniciarActionPerformed
-        gui.iniciarJogo();   
+        atorJogador.iniciarJogo();   
         statusMessageLabel.setText("Nova Partida");   
 }//GEN-LAST:event_partidaIniciarActionPerformed
 
@@ -547,7 +547,7 @@ private void partidaIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GE
 
     private boolean estabelecerConexao() {
         
-        if(gui.estabelecerConexao())
+        if(atorJogador.estabelecerConexao())
         {
             statusMessageLabel.setText("Conectado ao Servidor!");
             ((java.awt.CardLayout)mainPanel.getLayout()).show(mainPanel,"Conectado");
@@ -622,11 +622,11 @@ private void partidaIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GE
     }
 
     public AtorJogador getGui() {
-        return gui;
+        return atorJogador;
     }
 
     public void setGui(AtorJogador gui) {
-        this.gui = gui;
+        this.atorJogador = gui;
     }
 
     public JRadioButtonMenuItem getInserir() {

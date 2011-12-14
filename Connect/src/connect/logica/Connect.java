@@ -5,6 +5,7 @@ import connect.AtorJogador;
 import connect.Jogador;
 import connect.Tabuleiro;
 import connect.Ranking;
+import javax.swing.JOptionPane;
 
 public final class Connect {
 
@@ -68,4 +69,33 @@ public final class Connect {
         public void setRanking(Ranking ranking) {
             this.ranking = ranking;
         }   
+        
+                public void verificaVencedor() {
+            Jogador vencedor = temVencedor();
+            if(vencedor!=null){   
+                String menssagem;
+                if(this.getTabuleiro().getJogadorLocal().getNome().equals(vencedor.getNome())){
+                    this.getTabuleiro().removeMouseListener(atorJogador);                
+                    this.getRanking().addVitoria();
+                    menssagem = "PARABÉNS "+vencedor.getNome()+", você venceu!!";
+
+                    
+                }else{ 
+                    this.getRanking().addDerrota() ;
+                    menssagem = "QUE PENA, VOCE PERDEU!";
+                    this.getTabuleiro().removeMouseListener(atorJogador);
+                }
+                
+                //atorJogador.connectView.getPartidaFinalizar().setEnabled(false);
+                //this.connectView.getPartidaIniciar().setEnabled(true);
+                //this.connectView.getPartidaReiniciar().setEnabled(false);
+                JOptionPane.showMessageDialog(null,menssagem);
+                atorJogador.finalizaPartida();//
+                //        atorJogador.iniciarJogo();
+                  
+                  
+                  
+            }
+
+        }
 }
